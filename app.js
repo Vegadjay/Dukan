@@ -13,13 +13,7 @@ app.set("view engine", "ejs");
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "public"))); // Serve static files
-
-// Connect to the database
-connectDb()
-  .then(() => console.log("Database connected successfully"))
-  .catch((err) => console.error("Database connection failed:", err));
-
+app.use(express.static(path.join(__dirname, "public")));
 
 
 // setup apis
