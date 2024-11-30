@@ -28,6 +28,6 @@ const ownerSchema = mongoose.Schema({
     gstin:String
 })
 
-const ownerModel = mongoose.model("user",ownerSchema);
+const ownerModel = mongoose.model("owners",ownerSchema);
 
 module.exports = ownerModel;

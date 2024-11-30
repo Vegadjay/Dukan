@@ -5,7 +5,7 @@ const ownerRoutes = require("./routes/owner.routes");
 const productsRoutes = require("./routes/product.routes");
 const usersRoutes = require("./routes/users.routes");
 const indexRputer = require("./routes/index");
-
+const conenctionMongoDb = require("./config/mongoose-connection");
 const app = express();
 
 // Middlewares
@@ -16,11 +16,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(morgan('dev'));
 
+conenctionMongoDb();
+
 // setup apis
 app.use("/",indexRputer)
 app.use("/owners", ownerRoutes);
-app.use("/product", productsRoutes);
-app.use("/user", usersRoutes);
+app.use("/products", productsRoutes);
+app.use("/users", usersRoutes);
 
 
 // Start the server
