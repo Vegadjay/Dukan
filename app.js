@@ -1,10 +1,11 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const path = require("path");
+const morgan = require("morgan");
 const ownerRoutes = require("./routes/owner.routes");
 const productsRoutes = require("./routes/product.routes");
 const usersRoutes = require("./routes/users.routes");
 const indexRputer = require("./routes/index");
+
 const app = express();
 
 // Middlewares
@@ -13,14 +14,13 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
-
+app.use(morgan('dev'));
 
 // setup apis
 app.use("/",indexRputer)
 app.use("/owners", ownerRoutes);
 app.use("/product", productsRoutes);
 app.use("/user", usersRoutes);
-
 
 
 // Start the server
