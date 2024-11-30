@@ -11,6 +11,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "config": "^3.3.12",
     "cookie-parser": "^1.4.7",
     "cookieparser": "^0.1.0",
     "crypto": "^1.0.1",
