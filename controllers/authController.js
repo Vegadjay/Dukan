@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const generateToken = require('../utils/generateTokens')
 const userModel = require("../models/user-model")
+const products = require('../stuffs/productDetails')
 
 const regiseterUser = async (req,res) => {
     const { fullName, email, password } = req.body;
@@ -28,10 +29,7 @@ const regiseterUser = async (req,res) => {
             sameSite:true 
         });
 
-        res.status(201).json({ 
-            message: "User created successfully",
-            userId: user._id 
-        });
+        res.status(200).render('shop')
 
     } catch(err) {
         console.error(err); 
@@ -46,16 +44,20 @@ const loginUser = async (req,res) => {
     const { email,password } = req.body;
     try {
         const user = await userModel.findOne({email: email});
-        if(!user) {
-            res.status(500).send("Email Or Password is incorrect ! ");
-            console.log("If i hit")
-        }
-        else {
+             if(!user) return res.status(500).error("Email Or Password is incorrect ! ");
+        
             bcrypt.compare(password, user.password, function(err,result) {
-                res.send(result);
+                if(result) {
+                    let token = generateToken(user);
+                    res.cookie('token',token);
+                    res.render("shop");
+                }
+                else {
+                    res.status(500).error("Email Or Password is incorrect ! ");
+                }
             });
         }
-        } catch (err) {
+         catch (err) {
             res.send(err);
         }
 }
