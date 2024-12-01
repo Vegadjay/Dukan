@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt');
 const generateToken = require('../utils/generateTokens')
 const userModel = require("../models/user-model")
-const products = require('../stuffs/productDetails')
 
 const regiseterUser = async (req,res) => {
     const { fullName, email, password } = req.body;
@@ -9,7 +8,7 @@ const regiseterUser = async (req,res) => {
     try {
         const existingUser = await userModel.findOne({ email });
         if (existingUser) {
-            return res.status(400).json({ message: "User already exists" });
+            return res.send("User is exist");
         }
 
         const salt = await bcrypt.genSalt(parseInt(process.env.SALT_COUNT));
@@ -21,7 +20,7 @@ const regiseterUser = async (req,res) => {
             password: hash,
         });
 
-        let token = generateToken(user);       
+        let token = generateToken(user);
 
         res.cookie("token", token, { 
             httpOnly: true, 
@@ -50,7 +49,7 @@ const loginUser = async (req,res) => {
                 if(result) {
                     let token = generateToken(user);
                     res.cookie('token',token);
-                    res.render("shop");
+                    res.render("shop");     
                 }
                 else {
                     res.status(500).error("Email Or Password is incorrect ! ");
