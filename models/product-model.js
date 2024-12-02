@@ -6,7 +6,7 @@ const productSchema = mongoose.Schema({
         require:true
     },
     image: {
-        type:String
+        type:Buffer
     },
     name:{
         type:String

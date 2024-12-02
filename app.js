@@ -9,7 +9,7 @@ const ownerRoutes = require("./routes/owner.routes");
 const productsRoutes = require("./routes/product.routes");
 const usersRoutes = require("./routes/users.routes");
 const indexRouter = require("./routes/index");
-const conenctionMongoDb = require("./config/mongoose-connection");
+const conenctionMongoDb = require("./config/mongooseConnection");
 const app = express();
 
 // Middlewares
@@ -33,9 +33,11 @@ app.use(
     }
   })
 );
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(err.status || 500).json({ error: err.message });
+
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
 });
 
 
