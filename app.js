@@ -9,7 +9,10 @@ const ownerRoutes = require("./routes/owner.routes");
 const productsRoutes = require("./routes/product.routes");
 const usersRoutes = require("./routes/users.routes");
 const indexRouter = require("./routes/index");
+const loginRouter = require("./routes/login.routes")
+const registerUser = require("./routes/register.routes")
 const conenctionMongoDb = require("./config/mongooseConnection");
+const isLogged = require("./middlewares/isLoggedin");
 const app = express();
 
 // Middlewares
@@ -21,6 +24,7 @@ app.use(express.static("public"));
 app.use(morgan('dev'));
 app.use(flash());
 app.use(cors());
+app.use(isLogged);
 app.use(
   expressSession({
     resave: false,
@@ -34,19 +38,14 @@ app.use(
   })
 );
 
-app.use((req, res, next) => {
-    res.locals.success = req.flash('success');
-    res.locals.error = req.flash('error');
-    next();
-});
-
-
 
 // call database connection
 conenctionMongoDb();
 
 // setup apis
-app.use("/",indexRouter)
+app.use("/",indexRouter);
+app.use("/register",registerUser);
+app.use('/login',loginRouter);
 app.use("/owners", ownerRoutes);
 app.use("/products", productsRoutes);
 app.use("/users", usersRoutes);
