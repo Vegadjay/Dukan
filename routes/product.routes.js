@@ -17,7 +17,6 @@ router.post("/create", upload.single("image") , async (req,res)=>{
         textColor,
         image:req.file.buffer,
     })
-
     req.flash("success","Product Created Succrssfully..")
     res.redirect("/owners/admin");
 } catch (err) {

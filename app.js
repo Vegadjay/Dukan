@@ -24,7 +24,6 @@ app.use(express.static("public"));
 app.use(morgan('dev'));
 app.use(flash());
 app.use(cors());
-app.use(isLogged);
 app.use(
   expressSession({
     resave: false,
@@ -44,8 +43,7 @@ conenctionMongoDb();
 
 // setup apis
 app.use("/",indexRouter);
-app.use("/register",registerUser);
-app.use('/login',loginRouter);
+app.use('/auth',)
 app.use("/owners", ownerRoutes);
 app.use("/products", productsRoutes);
 app.use("/users", usersRoutes);

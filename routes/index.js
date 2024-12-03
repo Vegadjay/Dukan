@@ -10,7 +10,7 @@ router.get("/",(req,res)=>{
 
 router.get("/shop", isLoggedin, async (req,res) => {
     let products = await productModel.find();
-        res.render("shop", {products});
+    res.render("shop", {products});
 })
 
 
