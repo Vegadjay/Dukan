@@ -106,7 +106,7 @@ const loginUser = async (req, res) => {
 
     } catch (err) {
         req.flash('error', 'Server error. Please try again.');
-        res.redirect('/'); 
+        res.render('error'); 
     }
 };
 

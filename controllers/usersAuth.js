@@ -1,16 +1,17 @@
-const authController = require('./authController')
+const registerUser = require("./authController")
+const loginUser = require('./authController')
 
 
-// register and login shop owner 
-function createUser() {
-    authController.regiseterUser()
+// from this api we can register user 
+function registerUser1 () {
+    registerUser.regiseterUser();
 }
 
-function loginExistUser() {
-    authController.loginUser()
+function loginUser1 () {
+    loginUser.loginUser();
 }
 
 module.exports = {
-    createUser,
-    loginExistUser
+    registerUser1,
+    loginUser1
 };

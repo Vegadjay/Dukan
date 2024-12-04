@@ -7,10 +7,9 @@ const flash = require('connect-flash');
 const cors = require('cors');
 const ownerRoutes = require("./controllers/ownerAuth");
 const productsRoutes = require("./routes/product.routes");
-const usersRoutes = require("./controllers/usersAuth");
+const authPages = require("./routes/authpage.routes")
 const indexRouter = require("./routes/index");
-const loginRouter = require("./routes/login.routes")
-const registerUser = require("./routes/register.routes")
+const authController = require("./routes/auth.routes")
 const conenctionMongoDb = require("./config/mongooseConnection");
 const isLogged = require("./middlewares/isLoggedin");
 const app = express();
@@ -43,10 +42,10 @@ conenctionMongoDb();
 
 // setup apis
 app.use("/",indexRouter);
-app.use('/auth',)
-app.use("/owners", ownerRoutes);
+app.use('/auth',authController)
+app.use("/auth", authPages);
 app.use("/products", productsRoutes);
-app.use("/users", usersRoutes);
+// app.use("/users", usersRoutes);
 
 
 // Start the server

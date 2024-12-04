@@ -1,15 +1,16 @@
-const authController = require("./authController")
+const registerShopOwner = require("./authController")
+const loginShopOwner = require('./authController')
 
 // login and register shop owners
 function registerOwner () {
-    authController.regiseterOwner()
+    registerShopOwner.regiseterOwner()
 }
 
-function loginOwner () {
-    authController.loginOwner()
+function loginShopOwner1 () {
+    loginShopOwner.loginOwner();
 }
 
 module.exports = {
     registerOwner,
-    loginOwner
+    loginShopOwner1
 };
