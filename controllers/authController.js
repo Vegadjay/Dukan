@@ -5,7 +5,7 @@ const ownerModel = require("../models/owner-model")
 
 
 // register routes
-const regiseterAdmin = async (req, res) => {
+const regiseterUser = async (req, res) => {
     const { fullName, email, password } = req.body;
 
     try {
@@ -79,7 +79,7 @@ const regiseterOwner = async (req, res) => {
 
 
 // login routes
-const loginAdmin = async (req, res) => {
+const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     try {
@@ -148,8 +148,8 @@ const logoutUser = async (req,res) => {
 }
 
 module.exports = {
-    regiseterAdmin,
+    regiseterUser,
     regiseterOwner,
     loginOwner,
-    loginAdmin
+    loginUser
 };
