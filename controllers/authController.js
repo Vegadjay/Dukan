@@ -7,7 +7,7 @@ const ownerModel = require("../models/owner-model")
 // register routes
 const regiseterUser = async (req, res) => {
     const { fullName, email, password } = req.body;
-
+    console.log(fullName);
     try {
         const existingUser = await userModel.findOne({ email });
         if (existingUser) {
@@ -134,10 +134,6 @@ const loginOwner = async (req, res) => {
     }
 };
 
-
-const logoutUser = async (req,res) => {
-    // todo: complete this route ....
-}
 
 module.exports = {
     regiseterUser,

@@ -1,17 +1,20 @@
-// requirements
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
-const expressSession  = require("express-session");
+const expressSession = require("express-session");
 const flash = require('connect-flash');
 const cors = require('cors');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const dotenv = require("dotenv");
+const helmet = require("helmet");
 const productsRoutes = require("./routes/product.routes");
-const authPages = require("./routes/authpage.routes")
+const authPages = require("./routes/authpage.routes");
 const indexRouter = require("./routes/index");
-const authController = require("./routes/auth.routes")
-const requestValidationMiddleware = require("./middlewares/setHeader");
-const conenctionMongoDb = require("./config/mongooseConnection");
+const authController = require("./routes/auth.routes");
+const setHeader = require("./middlewares/setHeader")
+const connectionMongoDb = require("./config/mongooseConnection");
+
+dotenv.config();
 const app = express();
 
 // Middlewares
@@ -20,7 +23,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.static("public"));
 app.use(morgan('dev'));
-app.use(flash());
+app.use(helmet());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -31,22 +34,27 @@ app.use(
     secret: process.env.EXPRESS_SESSION_SECRET,
     cookie: {
       httpOnly: true,
-      secure: false,
-      sameSite: 'None' 
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax'
     }
   })
 );
-app.use(requestValidationMiddleware);
+app.use(flash());
+// Call database connection
+connectionMongoDb();
 
-// call database connection
-conenctionMongoDb();
 
-// setup apis
-app.use("/",indexRouter);
-app.use('/auth',authController)
-app.use("/auth", authPages);
+// Setup APIs
+app.use("/", indexRouter);
+app.use('/api/auth',setHeader,authController);
+app.use("/auth/pages", authPages);
 app.use("/products", productsRoutes);
-// app.use("/users", usersRoutes);
+
+// Error Handling Middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send({ message: "Something went wrong!" });
+});
 
 // Start the server
 const PORT = process.env.PORT || 3000;
