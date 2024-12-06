@@ -4,8 +4,7 @@ const router = express.Router();
 const productModel = require("../models/product-model");
 
 router.get("/",(req,res)=>{ 
-    let error = req.flash("error");
-    res.render("login", {error})
+    res.render("login",)
 })
 
 router.get("/shop", isLoggedin, async (req,res) => {
@@ -13,6 +12,8 @@ router.get("/shop", isLoggedin, async (req,res) => {
     res.render("shop", {products});
 })
 
-
+router.get("/error",(req,res)=> {
+    res.render("errorPage")
+})
 
 module.exports = router;

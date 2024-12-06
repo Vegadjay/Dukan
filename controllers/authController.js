@@ -11,7 +11,6 @@ const regiseterUser = async (req, res) => {
     try {
         const existingUser = await userModel.findOne({ email });
         if (existingUser) {
-            req.flash('error', 'User already exists');
             return res.redirect('/register');
         }
 
@@ -36,7 +35,6 @@ const regiseterUser = async (req, res) => {
 
     } catch (err) {
         console.error(err);
-        req.flash('error', 'Server error. Please try again.');
         res.redirect('/register');
     }
 };
@@ -47,7 +45,6 @@ const regiseterOwner = async (req, res) => {
     try {
         const existingUser = await ownerModel.findOne({ email });
         if (existingUser) {
-            req.flash('error', 'User already exists');
             return res.redirect('/register');
         }
 
@@ -72,7 +69,6 @@ const regiseterOwner = async (req, res) => {
 
     } catch (err) {
         console.error(err);
-        req.flash('error', 'Server error. Please try again.');
         res.redirect('/register');
     }
 };
@@ -80,22 +76,19 @@ const regiseterOwner = async (req, res) => {
 
 // login routes
 const loginUser = async (req, res) => {
-    const { email, password } = req.body;
-
+    
+    const { email } = req.body; 
     try {
         const user = await ownerModel.findOne({ email });
         if (!user) {
-            req.flash('error', 'Email or password is incorrect');
             res.redirect('/'); 
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            req.flash('error', 'Email or password is incorrect');
             res.redirect('/'); 
         }
-
+        res.setHeader('Content-Type', 'text/plain')
         const token = generateToken(user);
-
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
@@ -103,10 +96,12 @@ const loginUser = async (req, res) => {
         });
 
         res.redirect('/shop');
+        res.send("User is goes to shop")
 
     } catch (err) {
-        req.flash('error', 'Server error. Please try again.');
-        res.render('error'); 
+        console.log(err);
+        res.redirect("/error");
+        res.send("User is goes to error")
     }
 };
 
@@ -116,12 +111,10 @@ const loginOwner = async (req, res) => {
     try {
         const user = await userModel.findOne({ email });
         if (!user) {
-            req.flash('error', 'Email or password is incorrect');
             res.redirect('/'); 
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            req.flash('error', 'Email or password is incorrect');
             res.redirect('/'); 
         }
 
@@ -137,7 +130,6 @@ const loginOwner = async (req, res) => {
 
     } catch (err) {
         console.error(err);
-        req.flash('error', 'Server error. Please try again.');
         res.redirect('/'); 
     }
 };

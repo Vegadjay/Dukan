@@ -5,24 +5,25 @@ const morgan = require("morgan");
 const expressSession  = require("express-session");
 const flash = require('connect-flash');
 const cors = require('cors');
-const ownerRoutes = require("./controllers/ownerAuth");
+const bodyParser = require('body-parser')
 const productsRoutes = require("./routes/product.routes");
 const authPages = require("./routes/authpage.routes")
 const indexRouter = require("./routes/index");
 const authController = require("./routes/auth.routes")
+const requestValidationMiddleware = require("./middlewares/setHeader");
 const conenctionMongoDb = require("./config/mongooseConnection");
-const isLogged = require("./middlewares/isLoggedin");
 const app = express();
 
 // Middlewares
 app.set("view engine", "ejs");
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(morgan('dev'));
 app.use(flash());
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(
   expressSession({
     resave: false,
@@ -35,7 +36,7 @@ app.use(
     }
   })
 );
-
+app.use(requestValidationMiddleware);
 
 // call database connection
 conenctionMongoDb();
@@ -47,9 +48,8 @@ app.use("/auth", authPages);
 app.use("/products", productsRoutes);
 // app.use("/users", usersRoutes);
 
-
 // Start the server
-const PORT = process.env.PORT || 3000; // Configurable port
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
