@@ -15,7 +15,7 @@ router.get("/owner/loginpage",(req,res)=> {
     res.render("owner-login")
 })
 
-router.get("/owner/Registerpage",(req,res)=> {
+router.get("/owner/registerpage",(req,res)=> {
     res.render("owner-register")
 })
 
