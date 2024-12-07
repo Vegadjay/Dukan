@@ -27,4 +27,6 @@ const isLogged = async (req, res, next) => {
     }
 };
 
-module.exports = isLogged;
+module.exports = {
+    isLogged,
+};

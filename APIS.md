@@ -21,3 +21,4 @@ Generate one api readme for me i gave you all apis + routes make one readme
 /api/auth/users/login:- In This endpoint user can login
 /api/auth/owner/register:- In this endpoint New Owner can register
 /api/auth/owner/login:- In this endpoint Owner can login
+/api/auth/logout:- this is that endpoint that both type of user can logout

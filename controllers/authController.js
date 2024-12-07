@@ -5,6 +5,7 @@ const generateToken = require("../utils/generateTokens");
 const ownerModel = require("../models/owner-model");
 const userModel = require("../models/user-model");
 const flashMessages = require("../utils/flashMessages")
+const authLogout = require("../middlewares/isLoggedin")
 
 router.post("/users/register", async (req, res) => {
     const { fullName, email, password } = req.body;
@@ -131,5 +132,27 @@ router.post("/owner/login", async (req, res) => {
         res.status(500).send(flashMessages.error.serverError);
     }
 });
+
+router.get('/logout', async (req, res) => {
+    try {
+        res.clearCookie('token', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict', 
+        });
+
+        req.flash("success", "Logout successful. See you soon!");
+
+        return res.redirect("/");
+    } catch (error) {
+        console.error("Error during logout:", error);
+
+        req.flash("error", "An error occurred while logging out. Please try again.");
+        return res.redirect("/error");
+    }
+});
+
+
+// todo: Here there is one error (logout route) is not working and that is not working .....
 
 module.exports = router;
