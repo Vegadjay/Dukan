@@ -1,51 +1,148 @@
 <%- include('./partials/header') %>
-<div class="w-full h-screen flex items-start px-20 py-20">
-    <div class="w-[25%] flex h-screen flex-col items-start">
-        <div class="flex items-center gap-2">
-            <h3>Sort by</h3>
-            <form action="/shop" method="GET">
-                <select class="border-[1px] px-2 py-1" name="sortby" id="sortby" onchange="this.form.submit()">
-                    <option value="popular">Popular</option>
-                    <option value="newest">Newest</option>
-                </select>
-            </form>
+<!-- Bootstrap CDN -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    /* Custom styles for borders, card shadows, and hover effects */
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        transform: translateY(-5px);
+    }
+
+    .card-img-top {
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        overflow: hidden;
+    }
+
+    .card-body {
+        border-radius: 0 0 8px 8px;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+
+    .card-text {
+        font-size: 1rem;
+        color: #555;
+    }
+
+    .btn-outline-primary {
+        border-color: #007bff;
+        color: #007bff;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .filter-link {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .filter-link:hover {
+        text-decoration: underline;
+    }
+
+    .sidebar {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar h5 {
+        font-weight: 600;
+    }
+
+    .sidebar .list-unstyled li {
+        padding: 5px 0;
+    }
+
+    .no-products-message {
+        text-align: center;
+        color: #dc3545;
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+</style>
+
+<div class="container-fluid py-5">
+    <div class="row">
+        <!-- Sidebar (Filter and Sort) -->
+        <div class="col-md-3">
+            <div class="sidebar">
+                <div class="mb-4">
+                    <h4>Sort by</h4>
+                    <form action="/shop" method="GET">
+                        <select class="form-select" name="sortby" id="sortby" onchange="this.form.submit()">
+                            <option value="popular">Popular</option>
+                            <option value="newest">Newest</option>
+                        </select>
+                    </form>
+                </div>
+                <div class="mt-4">
+                    <h5>Filter by:</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="filter-link">New Collection</a></li>
+                        <li><a href="#" class="filter-link">All Products</a></li>
+                        <li><a href="#" class="filter-link">Discounted Products</a></li>
+                    </ul>
+                </div>
+                <div class="mt-4">
+                    <h5>Availability</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="filter-link">In Stock</a></li>
+                        <li><a href="#" class="filter-link">Out of Stock</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="flex flex-col mt-20">
-            <a class="block w-fit mb-2" href="">New Collection</a>
-            <a class="block w-fit mb-2" href="">All Products</a>
-            <a class="block w-fit mb-2" href="">Discounted Products</a>
-        </div>
-        <div class="mt-32">
-            <a class="block w-fit mb-2" href="">Filter by:</a>
-            <a class="block w-fit mb-2" href="">Availability</a>
-            <a class="block w-fit mb-2" href="">Discount</a>
-        </div>
-    </div>
-    <div class="w-[75%] flex flex-col gap-5 h-screen">
-        <div class="flex items-start gap-5">
-            <% if(products.length > 0){ %>
-                <% products.forEach(function(product){ %>
-                    <div class="w-60">
-                        <div class="w-full h-52 flex items-center justify-center bg-[<%= product.bgcolor %>]">
-                            <img class="h-[12rem]" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" alt="">
-                        </div>
-                        <div class="flex justify-between bg-[<%= product.panelcolor %>] items-center px-4 py-4 text-[<%= product.textcolor %>]">
-                            <div>
-                                <h3><%= product.name %></h3>
-                                <h4>₹ <%= product.price %></h4>
+
+        <!-- Main Product Grid -->
+        <div class="col-md-9">
+            <div class="row">
+                <% if (products.length > 0) { %>
+                    <% products.forEach(function(product) { %>
+                        <div class="col-md-4 mb-4">
+                            <div class="card shadow-sm">
+                                <div class="card-img-top bg-light d-flex justify-content-center align-items-center" style="height: 200px;">
+                                    <img class="img-fluid" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" alt="<%= product.name %>">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title"><%= product.name %></h5>
+                                    <p class="card-text">₹ <%= product.price %></p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <a href="#" class="btn btn-outline-primary btn-sm">
+                                            <i class="ri-add-line"></i> Add to Cart
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                            <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                                <i class="ri-add-line"></i>
-                            </a>
                         </div>
+                    <% }) %>
+                <% } else { %>
+                    <div class="col-12">
+                        <h2 class="no-products-message">No products available in the list</h2>
                     </div>
-                <% }) %>
-            <% } else { %>
-                <h1 class="text-red-900 font-semibold text-3xl">
-                    No products available in the list
-                </h1>
-            <% } %>
+                <% } %>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- Bootstrap JS CDN -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 <%- include('./partials/footer') %>

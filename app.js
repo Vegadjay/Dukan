@@ -3,13 +3,14 @@ const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const expressSession = require("express-session");
 const cors = require('cors');
+const flash = require("connect-flash");
 const bodyParser = require('body-parser');
 const dotenv = require("dotenv");
 const helmet = require("helmet");
 const productsRoutes = require("./routes/product.routes");
 const authPages = require("./routes/authpage.routes");
 const indexRouter = require("./routes/index");
-const authController = require("./routes/auth.routes");
+const authController = require("./controllers/authController");
 const setHeader = require("./middlewares/setHeader")
 const connectionMongoDb = require("./config/mongooseConnection");
 dotenv.config();
@@ -37,6 +38,8 @@ app.use(
     }
   })
 );
+app.use(flash());
+
 
 // Call database connection
 connectionMongoDb();

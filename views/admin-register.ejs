@@ -9,7 +9,23 @@
 <body class="bg-light d-flex align-items-center justify-content-center vh-100">
     <div class="bg-white shadow rounded p-4" style="max-width: 400px; width: 100%;">
         <h1 class="text-center mb-4 fw-bold">Admin Registration</h1>
-        <form action="/auth/users/register" method="POST">
+
+        <!-- Flash Messages -->
+        <% if (successMessage && successMessage.length > 0) { %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <%= successMessage[0] %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+        <% if (errorMessage && errorMessage.length > 0) { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <%= errorMessage[0] %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+        <!-- End Flash Messages -->
+
+        <form action="/api/auth/users/register" method="post">
             <div class="mb-3">
                 <label for="fullName" class="form-label">Full Name</label>
                 <input type="text" id="fullName" name="fullName" class="form-control" placeholder="Enter your full name" required>
