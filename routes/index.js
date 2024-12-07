@@ -4,7 +4,7 @@ const router = express.Router();
 const productModel = require("../models/product-model");
 
 router.get("/",(req,res)=>{ 
-    res.render("login",)
+    res.render("login")
 })
 
 router.get("/shop", isLoggedin, async (req,res) => {

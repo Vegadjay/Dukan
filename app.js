@@ -2,7 +2,6 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const expressSession = require("express-session");
-const flash = require('connect-flash');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const dotenv = require("dotenv");
@@ -13,7 +12,6 @@ const indexRouter = require("./routes/index");
 const authController = require("./routes/auth.routes");
 const setHeader = require("./middlewares/setHeader")
 const connectionMongoDb = require("./config/mongooseConnection");
-
 dotenv.config();
 const app = express();
 
@@ -39,7 +37,7 @@ app.use(
     }
   })
 );
-app.use(flash());
+
 // Call database connection
 connectionMongoDb();
 
