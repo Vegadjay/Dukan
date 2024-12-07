@@ -76,9 +76,44 @@
         font-size: 1.5rem;
         font-weight: 600;
     }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+    }
+
+    .user-name {
+        font-size: 1rem;
+        margin-right: 10px;
+        font-weight: bold;
+    }
+
+    .logout-btn {
+        color: #dc3545;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .logout-btn:hover {
+        text-decoration: underline;
+    }
 </style>
 
 <div class="container-fluid py-5">
+    <div class="header">
+        <h2>Shop</h2>
+        <div class="user-info">
+            <span class="user-name">Hello, <%= userName %>!</span>
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+    </div>
     <div class="row">
         <!-- Sidebar (Filter and Sort) -->
         <div class="col-md-3">
