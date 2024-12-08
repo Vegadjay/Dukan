@@ -1,5 +1,4 @@
 const requestValidationMiddleware = (req, res, next) => {
-  // Only validate POST, PUT, PATCH requests
   if (['POST', 'PUT', 'PATCH'].includes(req.method)) {    
     if (!req.body || Object.keys(req.body).length === 0) {
       return res.status(400).json({

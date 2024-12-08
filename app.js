@@ -11,6 +11,9 @@ const productsRoutes = require("./routes/product.routes");
 const authPages = require("./routes/authpage.routes");
 const indexRouter = require("./routes/index");
 const authController = require("./controllers/authController");
+const userShopRoutes = require('./routes/userspage.routes')
+const ownersRoutes = require('./routes/ownes.routes')
+const authMiddleware = require("./middlewares/authMiddleware")
 const setHeader = require("./middlewares/setHeader")
 const connectionMongoDb = require("./config/mongooseConnection");
 dotenv.config();
@@ -38,6 +41,7 @@ app.use(
     }
   })
 );
+app.use(authMiddleware);
 app.use(flash());
 
 
@@ -50,11 +54,12 @@ app.use("/", indexRouter);
 app.use('/api/auth',setHeader,authController);
 app.use("/auth/pages", authPages);
 app.use("/products", productsRoutes);
+app.use('/users',userShopRoutes)
+app.use("/owners",ownersRoutes)
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send({ message: "Something went wrong!" });
+  res.status(500).redirect('/error');
 });
 
 // Start the server

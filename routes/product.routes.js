@@ -19,6 +19,7 @@ router.post("/create", upload.single("image") , async (req,res)=>{
     })
     res.redirect("/owners/admin");
 } catch (err) {
+    console.log(err)
     }
 })
 

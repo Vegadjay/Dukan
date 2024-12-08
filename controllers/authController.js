@@ -32,9 +32,8 @@ router.post("/users/register", async (req, res) => {
             sameSite: true,
         });
         req.flash("success", flashMessages.success.userRegistered);
-        res.status(200).redirect("/shop");
+        res.status(200).redirect("/users/shop");
     } catch (err) {
-        console.error(err);
         req.flash("error", flashMessages.error.serverError);
         res.status(500).send(flashMessages.error.serverError);
     }
@@ -42,31 +41,32 @@ router.post("/users/register", async (req, res) => {
 
 router.post("/users/login", async (req, res) => {
     const { email, password } = req.body;
+    
+    if (!email || !password) {
+        req.flash("error", "Please provide both email and password");
+        return res.status(400).redirect('/login');
+    }
+
     try {
         const user = await userModel.findOne({ email });
-        if (!user) {
-            req.flash("error", flashMessages.error.userNotFound);
-            return res.status(400).send(flashMessages.error.userNotFound);
-        }
-
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            req.flash("error", flashMessages.error.invalidCredentials);
-            return res.status(400).send(flashMessages.error.invalidCredentials);
+        
+        if (!user || !(await bcrypt.compare(password, user.password))) {
+            req.flash("error", "Invalid email or password");
+            return res.status(400).redirect('/login');
         }
 
         const token = generateToken(user);
         res.cookie("token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: true,
+            sameSite: 'strict',
+            maxAge: 24 * 60 * 60 * 1000 
         });
         req.flash("success", flashMessages.success.userLoggedIn);
-        res.status(200).redirect('/shop');
+        res.status(200).redirect('/users/shopdetails');
     } catch (err) {
-        console.error(err);
-        req.flash("error", flashMessages.error.serverError);
-        res.status(500).send(flashMessages.error.serverError);
+        req.flash("error", "An unexpected error occurred");
+        res.status(500).redirect('/error');
     }
 });
 
@@ -95,9 +95,8 @@ router.post("/owner/register", async (req, res) => {
             sameSite: true,
         });
         req.flash("success", flashMessages.success.ownerRegistered);
-        res.status(201).send(flashMessages.success.ownerRegistered);
+        res.status(201).redirect("/owners/products");
     } catch (err) {
-        console.error(err);
         req.flash("error", flashMessages.error.serverError);
         res.status(500).send(flashMessages.error.serverError);
     }
@@ -125,34 +124,30 @@ router.post("/owner/login", async (req, res) => {
             sameSite: true,
         });
         req.flash("success", flashMessages.success.ownerLoggedIn);
-        res.status(200).send(flashMessages.success.ownerLoggedIn);
+        res.status(200).redirect("/owners/products");;
     } catch (err) {
-        console.error(err);
         req.flash("error", flashMessages.error.serverError);
         res.status(500).send(flashMessages.error.serverError);
     }
 });
 
-// router.get('/logout', async (req, res) => {
-//     try {
-//         res.clearCookie('token', {
-//             httpOnly: true,
-//             secure: process.env.NODE_ENV === 'production',
-//             sameSite: 'strict', 
-//         });
+router.get('/logout',function (req,res) {
+    try {
 
-//         req.flash("success", "Logout successful. See you soon!");
+        res.clearCookie('token', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+        })
 
-//         return res.redirect("/");
-//     } catch (error) {
-//         console.error("Error during logout:", error);
+        req.flash("success", "Logout successful. See you soon!");
+        return res.redirect("/");
+    } catch(err) {
+        console.error("Error during logout:", err);
+        req.flash("error", "An error occurred while logging out. Please try again.");
+        return res.redirect("/error");
+    }
+})
 
-//         req.flash("error", "An error occurred while logging out. Please try again.");
-//         return res.redirect("/error");
-//     }
-// });
-
-
-// todo: Here there is one error (logout route) is not working and that is not working .....
 
 module.exports = router;
