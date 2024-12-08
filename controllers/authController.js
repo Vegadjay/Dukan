@@ -133,24 +133,24 @@ router.post("/owner/login", async (req, res) => {
     }
 });
 
-router.get('/logout', async (req, res) => {
-    try {
-        res.clearCookie('token', {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict', 
-        });
+// router.get('/logout', async (req, res) => {
+//     try {
+//         res.clearCookie('token', {
+//             httpOnly: true,
+//             secure: process.env.NODE_ENV === 'production',
+//             sameSite: 'strict', 
+//         });
 
-        req.flash("success", "Logout successful. See you soon!");
+//         req.flash("success", "Logout successful. See you soon!");
 
-        return res.redirect("/");
-    } catch (error) {
-        console.error("Error during logout:", error);
+//         return res.redirect("/");
+//     } catch (error) {
+//         console.error("Error during logout:", error);
 
-        req.flash("error", "An error occurred while logging out. Please try again.");
-        return res.redirect("/error");
-    }
-});
+//         req.flash("error", "An error occurred while logging out. Please try again.");
+//         return res.redirect("/error");
+//     }
+// });
 
 
 // todo: Here there is one error (logout route) is not working and that is not working .....
