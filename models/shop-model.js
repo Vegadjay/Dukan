@@ -1,17 +1,28 @@
-const productModel = require("../models/product-model");
+const mongoose = require('mongoose');
 
 const shopSchema = new mongoose.Schema({
-    name: {
+    ownerName: {
         type: String,
         required: true,
         trim: true
     },
-    address: {
+    ownerNo: {
+        type: Number,
+        require: true,
+    },
+    ownerEmail: {
+        type: String,
+        require: true
+    },
+    shopName: {
+        type: String,
+        require: true
+    },
+    shopAddress: {
         type: String,
         required: true,
         trim: true
     },
-    products: [productModel],
     createdAt: {
         type: Date,
         default: Date.now

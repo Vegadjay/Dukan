@@ -14,7 +14,6 @@
                     <div class="card-body p-5">
                         <h1 class="h4 text-center text-primary mb-4">Register Your Shop</h1>
 
-                        <!-- Success Message -->
                         <% if (successMessage && successMessage.length > 0) { %>
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <%= successMessage %>
@@ -22,7 +21,6 @@
                             </div>
                         <% } %>
 
-                        <!-- Error Message -->
                         <% if (errorMessage && errorMessage.length > 0) { %>
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <%= errorMessage %>
@@ -30,57 +28,40 @@
                             </div>
                         <% } %>
 
-                        <!-- Shop Registration Form -->
-                        <form action="/add-shop" method="POST">
-                            <!-- Owner ID -->
+                       <form action="/shop/addshop" method="POST">
                             <div class="mb-3">
-                                <label for="ownerId" class="form-label">Owner ID</label>
-                                <input type="text" id="ownerId" name="ownerId" class="form-control" placeholder="Enter your Owner ID" required>
+                                <label for="ownerName" class="form-label">Owner Name</label>
+                                <input type="text" id="ownerName" name="ownerName" class="form-control" placeholder="Enter Owner Name" required>
                             </div>
 
-                            <!-- Shop Name -->
+                            <div class="mb-3">
+                                <label for="ownerMobile" class="form-label">Owner Mobile Number</label>
+                                <input type="text" id="ownerMobile" name="ownerNo" class="form-control" placeholder="Enter Owner Mobile Number" pattern="[0-9]{10,15}" title="Enter a valid mobile number" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                    <label for="ownerEmail" class="form-label">Owner Email Address</label>
+                                    <input type="email" id="ownerEmail" name="ownerEmail" class="form-control" 
+                                        placeholder="Enter Owner Email Address" 
+                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
+                                    title="Enter a valid email address" 
+                                    required>
+                                    </div>
+
                             <div class="mb-3">
                                 <label for="shopName" class="form-label">Shop Name</label>
                                 <input type="text" id="shopName" name="shopName" class="form-control" placeholder="Enter Shop Name" required>
                             </div>
 
-                            <!-- Shop Address -->
                             <div class="mb-3">
                                 <label for="shopAddress" class="form-label">Shop Address</label>
                                 <input type="text" id="shopAddress" name="shopAddress" class="form-control" placeholder="Enter Shop Address" required>
                             </div>
 
-                            <!-- Product List -->
-                            <div id="product-list">
-                                <h5 class="text-secondary mt-4">Products</h5>
-
-                                <div class="product-item mb-3">
-                                    <div class="row g-2">
-                                        <div class="col-6">
-                                            <input type="text" name="products[0][name]" class="form-control" placeholder="Product Name" required>
-                                        </div>
-                                        <div class="col-3">
-                                            <input type="number" name="products[0][price]" class="form-control" placeholder="Price" required>
-                                        </div>
-                                        <div class="col-3">
-                                            <input type="number" name="products[0][quantity]" class="form-control" placeholder="Quantity" required>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Add Another Product Button -->
-                            <div class="mb-3">
-                                <button type="button" id="add-product-btn" class="btn btn-secondary w-100">Add Another Product</button>
-                            </div>
-
-                            <!-- Submit Button -->
                             <button type="submit" class="btn btn-primary w-100">Register Shop</button>
-                        </form>
-
-                        <!-- Redirect to Dashboard -->
+                            </form>
                         <p class="text-center mt-3 text-muted">
-                            Go back to <a href="/dashboard" class="text-primary">Dashboard</a>
+                            Go back to <a href="/" class="text-primary">Dashboard</a>
                         </p>
                     </div>
                 </div>
@@ -88,29 +69,5 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- <script>
-        // Dynamically add product fields
-        let productCount = 1;
-        document.getElementById('add-product-btn').addEventListener('click', function () {
-            const productList = document.getElementById('product-list');
-            const newProductHTML = `
-                <div class="product-item mb-3">
-                    <div class="row g-2">
-                        <div class="col-6">
-                            <input type="text" name="products[${productCount}][name]" class="form-control" placeholder="Product Name" required>
-                        </div>
-                        <div class="col-3">
-                            <input type="number" name="products[${productCount}][price]" class="form-control" placeholder="Price" required>
-                        </div>
-                        <div class="col-3">
-                            <input type="number" name="products[${productCount}][quantity]" class="form-control" placeholder="Quantity" required>
-                        </div>
-                    </div>
-                </div>
-            `;
-            productList.insertAdjacentHTML('beforeend', newProductHTML);
-            productCount++;
-        });
-    </script> -->
 </body>
 </html>

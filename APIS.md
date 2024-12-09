@@ -47,14 +47,17 @@ owners/addproduct:- Add Products
 (models) 
 product model:-
     productName,
+    ownerModel,
     productPrice,
     productquantity,
     productDesctiption,
 
 Shop Model
+    ownerModel,
+    ownerNo,
+    ownerEmail,
     shopName,
-    adress,
-    products,
+    shopAddress,
 
 user Model
     fullName,
@@ -72,4 +75,4 @@ shop Owner
     shops,
     contact
 
-<!-- todo: all pages are done now make only that db setup for all users and all owners -->
+<!-- todo: Here in this code there is one error on model that we have to solve and make one new model using this new shop model and also modify that owner model -->

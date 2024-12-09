@@ -16,26 +16,50 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">
-                <img src="https://via.placeholder.com/30" alt="Logo"> Sample Logo
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item d-flex">
-                    <li class="nav-item d-flex">
-                        <a class="nav-link active" href="/owners/addnewshop">Add New Shop</a>
-                        <a class="nav-link active" href="/owners/addproduct">Add Product</a>
-                        <a class="nav-link active" href="contactus">Contact Us</a>
-                        <a href="/api/auth/logout" class="logout-btn bg-danger w-50 text-white text-center rounded">Logout</a>
-                    </li>
-                </ul>
-            </div>
+    <div class="container-fluid">
+        <!-- Brand Logo -->
+        <a class="navbar-brand d-flex align-items-center" href="/">
+            <img src="https://via.placeholder.com/30" alt="Logo" class="me-2 rounded-circle"> 
+            <span class="fw-bold">Sample Logo</span>
+        </a>
+
+        <!-- Toggler for Mobile View -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <!-- Shop Name -->
+                <li class="nav-item me-3">
+                    <h5 class="text-primary fw-bold m-0"><%= owner %></h5>
+                </li>
+                
+                <li class="nav-item me-3">
+                    <h5 class="text-primary fw-bold m-0"><%= shop %></h5>
+                </li>
+
+                <!-- Navigation Links -->
+                <li class="nav-item">
+                    <a class="nav-link btn btn-outline-primary rounded-pill px-3 mx-2" href="/owners/addnewshop">Add New Shop</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-outline-success rounded-pill px-3 mx-2" href="/owners/addproduct">Add Product</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-outline-warning rounded-pill px-3 mx-2" href="contactus">Contact Us</a>
+                </li>
+
+                <!-- Logout Button -->
+                <li class="nav-item">
+                    <a href="/api/auth/logout" class="btn btn-danger text-white rounded-pill px-4">Logout</a>
+                </li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
+
 
     <div class="container-fluid">
         <main class="px-3">

@@ -13,6 +13,7 @@ const indexRouter = require("./routes/index");
 const authController = require("./controllers/authController");
 const userShopRoutes = require('./routes/userspage.routes')
 const ownersRoutes = require('./routes/ownes.routes')
+const shopController = require("./controllers/shopController")
 const authMiddleware = require("./middlewares/authMiddleware")
 const setHeader = require("./middlewares/setHeader")
 const connectionMongoDb = require("./config/mongooseConnection");
@@ -51,11 +52,12 @@ connectionMongoDb();
 
 // Setup APIs
 app.use("/", indexRouter);
-app.use('/api/auth',setHeader,authController);
+app.use('/api/auth', setHeader, authController);
 app.use("/auth/pages", authPages);
 app.use("/products", productsRoutes);
-app.use('/users',userShopRoutes)
-app.use("/owners",ownersRoutes)
+app.use('/users', userShopRoutes)
+app.use("/owners", ownersRoutes)
+app.use("/shop", shopController);
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
