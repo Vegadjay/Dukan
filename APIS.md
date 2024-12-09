@@ -41,4 +41,35 @@ owners/orders:- All Orders From Shop
 
 owners/addproduct:- Add Products
 
+
+<!-- ---------------------------------------- -->
+
+(models) 
+product model:-
+    productName,
+    productPrice,
+    productquantity,
+    productDesctiption,
+
+Shop Model
+    shopName,
+    adress,
+    products,
+
+user Model
+    fullName,
+    email,
+    password,
+    cart,
+    contact,
+    orders
+
+shop Owner
+    fullName,
+    email,
+    password,
+    shopAddress,
+    shops,
+    contact
+
 <!-- todo: all pages are done now make only that db setup for all users and all owners -->

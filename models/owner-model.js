@@ -33,7 +33,7 @@ const ownerSchema = new mongoose.Schema({
         required: true,
         validate: {
             validator: function (v) {
-                return /^[0-9]{10,15}$/.test(v); // Validates contact number (10-15 digits)
+                return /^[0-9]{10,15}$/.test(v);
             },
             message: props => `${props.value} is not a valid contact number!`
         }

@@ -25,7 +25,17 @@
             <!-- Main Content -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <h1 class="h2 my-4">Create Product</h1>
-                <form action="/create-product" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                <form action="/create-product" method="POST" enctype="multipart/form-data">
+                    <!-- Shop ID -->
+                    <div class="mb-3">
+                        <label for="shopId" class="form-label">Shop ID</label>
+                        <input type="text" class="form-control" id="shopId" name="shopId" required>
+                        <div class="invalid-feedback">
+                            Please provide the Shop ID.
+                        </div>
+                    </div>
+
+                    <!-- Product Name -->
                     <div class="mb-3">
                         <label for="productName" class="form-label">Product Name</label>
                         <input type="text" class="form-control" id="productName" name="name" required>
@@ -34,6 +44,7 @@
                         </div>
                     </div>
 
+                    <!-- Price -->
                     <div class="mb-3">
                         <label for="productPrice" class="form-label">Price</label>
                         <input type="number" class="form-control" id="productPrice" name="price" required>
@@ -42,24 +53,28 @@
                         </div>
                     </div>
 
+                    <!-- Quantity -->
                     <div class="mb-3">
-                        <label for="productDiscount" class="form-label">Discount (%)</label>
-                        <input type="number" class="form-control" id="productDiscount" name="discount">
+                        <label for="productQuantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="productQuantity" name="quantity" required>
+                        <div class="invalid-feedback">
+                            Please provide the quantity.
+                        </div>
                     </div>
 
+                    <!-- Category -->
+                    <div class="mb-3">
+                        <label for="productCategory" class="form-label">Category</label>
+                        <input type="text" class="form-control" id="productCategory" name="category">
+                    </div>
+
+                    <!-- Description -->
                     <div class="mb-3">
                         <label for="productDescription" class="form-label">Description</label>
                         <textarea class="form-control" id="productDescription" name="description" rows="4"></textarea>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="productImage" class="form-label">Upload Image</label>
-                        <input type="file" class="form-control" id="productImage" name="image" accept="image/*" required>
-                        <div class="invalid-feedback">
-                            Please upload a product image.
-                        </div>
-                    </div>
-
+                    <!-- Submit Button -->
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </main>
