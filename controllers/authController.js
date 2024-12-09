@@ -41,7 +41,7 @@ router.post("/users/register", async (req, res) => {
 
 router.post("/users/login", async (req, res) => {
     const { email, password } = req.body;
-    
+
     if (!email || !password) {
         req.flash("error", "Please provide both email and password");
         return res.status(400).redirect('/login');
@@ -49,7 +49,7 @@ router.post("/users/login", async (req, res) => {
 
     try {
         const user = await userModel.findOne({ email });
-        
+
         if (!user || !(await bcrypt.compare(password, user.password))) {
             req.flash("error", "Invalid email or password");
             return res.status(400).redirect('/login');
@@ -60,7 +60,7 @@ router.post("/users/login", async (req, res) => {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: 'strict',
-            maxAge: 24 * 60 * 60 * 1000 
+            maxAge: 24 * 60 * 60 * 1000
         });
         req.flash("success", flashMessages.success.userLoggedIn);
         res.status(200).redirect('/users/shopdetails');
@@ -70,13 +70,17 @@ router.post("/users/login", async (req, res) => {
     }
 });
 
+
 router.post("/owner/register", async (req, res) => {
-    const { fullName, email, password } = req.body;
+    const { fullName, email, password, shopAddress, contact } = req.body;
+
     try {
         const existingOwner = await ownerModel.findOne({ email });
         if (existingOwner) {
-            req.flash("info", flashMessages.info.ownerExists);
-            return res.status(400).send(flashMessages.info.ownerExists);
+            return res.status(400).json({
+                success: false,
+                message: "User is already Exsist",
+            });
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -86,21 +90,31 @@ router.post("/owner/register", async (req, res) => {
             fullName,
             email,
             password: hash,
+            shopAddress,
+            contact,
+            shops: [],
         });
 
+
         const token = generateToken(newOwner);
+
         res.cookie("token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: true,
+            sameSite: "strict",
         });
-        req.flash("success", flashMessages.success.ownerRegistered);
-        res.status(201).redirect("/owners/products");
+
+        res.status(201).redirect('/owners/products')
     } catch (err) {
-        req.flash("error", flashMessages.error.serverError);
-        res.status(500).send(flashMessages.error.serverError);
+        res.status(500).json({
+            success: false,
+            message: "An error occurred while registering the owner.",
+        });
     }
 });
+
+module.exports = router;
+
 
 router.post("/owner/login", async (req, res) => {
     const { email, password } = req.body;
@@ -131,7 +145,7 @@ router.post("/owner/login", async (req, res) => {
     }
 });
 
-router.get('/logout',function (req,res) {
+router.get('/logout', function (req, res) {
     try {
 
         res.clearCookie('token', {
@@ -142,7 +156,7 @@ router.get('/logout',function (req,res) {
 
         req.flash("success", "Logout successful. See you soon!");
         return res.redirect("/");
-    } catch(err) {
+    } catch (err) {
         console.error("Error during logout:", err);
         req.flash("error", "An error occurred while logging out. Please try again.");
         return res.redirect("/error");

@@ -12,9 +12,8 @@
             <div class="col-md-6">
                 <div class="card shadow-lg">
                     <div class="card-body p-5">
-                        <h1 class="h2 text-center text-gray-800 mb-4">Owner Register</h1>
-
-                        <!-- Flash Messages -->
+                        <h1>
+                            <!-- Flash Messages -->
                         <% if (successMessage && successMessage.length > 0) { %>
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <%= successMessage[0] %>
@@ -24,31 +23,54 @@
                         <% if (errorMessage && errorMessage.length > 0) { %>
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <%= errorMessage[0] %>
+                                 <h1>Hello World</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         <% } %>
+                        </h1>
                         <!-- End Flash Messages -->
+                        <h1 class="h2 text-center text-gray-800 mb-4">Owner Register</h1>
 
+                            <!-- todo: Add api for register shop owner -->
                         <form action="/api/auth/owner/register" method="POST">
                             <div class="mb-3">
                                 <label for="fullname" class="form-label">Full Name</label>
-                                <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" class="form-control" required>
+                                <input type="text" id="fullname" name="fullName" placeholder="Enter your full name" class="form-control" minlength="4" required>
                             </div>
+                            
+                            <!-- Email -->
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" id="register-email" name="email" placeholder="Enter your email" class="form-control" required>
                             </div>
+                            
+                            <!-- Password -->
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
-                                <input type="password" id="register-password" name="password" placeholder="Enter your password" class="form-control" required>
+                                <input type="password" id="register-password" name="password" placeholder="Enter your password" class="form-control" minlength="6" required>
                             </div>
+
+                            <!-- Shop Address -->
+                            <div class="mb-3">
+                                <label for="shopAddress" class="form-label">Shop Address</label>
+                                <textarea id="shopAddress" name="shopAddress" placeholder="Enter your shop address" class="form-control" rows="3" required></textarea>
+                            </div>
+                            
+                            <!-- Contact -->
+                            <div class="mb-3">
+                                <label for="contact" class="form-label">Contact Number</label>
+                                <input type="text" id="contact" name="contact" placeholder="Enter your contact number" class="form-control" pattern="[0-9]{10,15}" title="Enter a valid phone number (10-15 digits)" required>
+                            </div>
+
+                            <!-- Submit Button -->
                             <button type="submit" class="btn btn-primary w-100">
                                 Register as Owner
                             </button>
                         </form>
+
                         <p class="text-center mt-3 text-muted">
                             Already have an account? 
-                            <a href="#login" class="text-success">Login Here</a>
+                            <a href="/auth/pages/owner/loginpage" class="text-success">Login Here</a>
                         </p>
                     </div>
                 </div>
