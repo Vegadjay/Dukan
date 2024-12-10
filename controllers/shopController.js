@@ -1,64 +1,65 @@
 const express = require("express");
 const router = express.Router();
 const shopModel = require("../models/shop-model");
-const ownerModel = require("../models/owner-model"); // Assuming you have an owner model
+const ownerModel = require("../models/owner-model");
+const productModel = require('../models/product-model')
 
 router.post("/addshop", async (req, res) => {
     try {
         const { ownerName, ownerNo, ownerEmail, shopName, shopAddress } = req.body;
 
-        // Validate all fields
         if (!ownerName || !ownerNo || !shopName || !shopAddress || !ownerEmail) {
-            return res.render('shopRegistration', {
+            return res.render('add-shop', {
                 errorMessage: "All fields are required.",
-                successMessage: ""
+                successMessage: "Nothing"
             });
         }
 
-        // Verify if the email exists in the owner model
         const owner = await ownerModel.findOne({ email: ownerEmail });
+
         if (!owner) {
-            return res.render('shopRegistration', {
+            return res.render('add-shop', {
                 errorMessage: "Owner email does not exist. Please register first.",
-                successMessage: ""
+                successMessage: "Nothing"
             });
         }
 
-        // Check if shop already exists for this owner
         const existingShop = await shopModel.findOne({
             ownerEmail: ownerEmail,
             shopName: shopName
         });
 
-        if (existingShop) {
-            return res.render('shopRegistration', {
-                errorMessage: "A shop with this name already exists for this owner.",
-                successMessage: ""
+        const ownername = owner.fullName || "Owner Name Is Not Provided"
+        if (!existingShop) {
+
+            await shopModel.create({
+                ownerName,
+                ownerNo,
+                shopName,
+                shopAddress,
+                ownerEmail,
+                owner: owner._id
+            });
+
+            const product = await productModel.find();
+
+            return res.status(200).render('showproducts', {
+                successMessage: "Shop registered successfully!",
+                errorMessage: "Nothing",
+                owner: ownername,
+                shop: shopName,
+                products: product
             });
         }
 
-        // Create new shop
-        const shop = await shopModel.create({
-            ownerName,
-            ownerNo,
-            shopName,
-            shopAddress,
-            ownerEmail,
-            owner: owner._id // Link shop to owner's ID
-        });
-
-        // Redirect with success message
-        return res.render('shopRegistration', {
-            successMessage: "Shop registered successfully!",
-            errorMessage: ""
+        return res.render('add-shop', {
+            errorMessage: "A shop with this name already exists for this owner.",
+            successMessage: "Nothing"
         });
 
     } catch (err) {
         console.error("Error occurred:", err);
-        return res.render('shopRegistration', {
-            errorMessage: "An error occurred while registering the shop.",
-            successMessage: ""
-        });
+        return res.status(500).redirect('/error');
     }
 });
 

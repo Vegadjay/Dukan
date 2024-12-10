@@ -17,6 +17,7 @@ const authenticateUser = (req, res, next) => {
             req.user = decoded;
             next();
         } catch (error) {
+            console.log("Jwt atuh")
             return res.status(401).redirect('/error');
         }
     } else {
