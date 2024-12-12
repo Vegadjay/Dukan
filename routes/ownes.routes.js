@@ -32,10 +32,20 @@ router.get('/products', authenticateUser, async (req, res) => {
             });
         }
 
+        // Fetch products for the shop
         const products = await productModel.find({ shop: shop._id });
 
+        // Convert the image buffer to Base64 for each product
+        const productsWithBase64Images = products.map(product => {
+            if (product.image) {
+                product.image = product.image.toString('base64');  // Convert buffer to base64 string
+            }
+            return product;
+        });
+
+        // Render the page with products
         res.render("showproducts", {
-            products,
+            products: productsWithBase64Images,
             shopName: shop.shopName || "Unnamed Shop",
             ownerName: owner.fullName || "Unknown Owner"
         });
@@ -48,6 +58,7 @@ router.get('/products', authenticateUser, async (req, res) => {
         });
     }
 });
+
 
 router.get('/addproduct', async (req, res) => {
     res.render("addproduct");

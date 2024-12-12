@@ -3,9 +3,11 @@ const router = express.Router();
 const shopModel = require("../models/shop-model");
 const ownerModel = require("../models/owner-model");
 const productModel = require('../models/product-model')
-const jwt = require("jsonwebtoken");
+const multer = require('multer');
 const authenticateUser = require('../middlewares/authUser');
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 router.post("/addshop", async (req, res) => {
     try {
@@ -69,16 +71,14 @@ router.post("/addshop", async (req, res) => {
 });
 
 
-router.post('/addproduct', authenticateUser, async (req, res) => {
+router.post('/addproduct', authenticateUser, upload.single('productImage'), async (req, res) => {
     try {
         const ownerEmail = req.user.email;
-
         const { name, price, quantity, description, category } = req.body;
 
-        console.log(name, price, quantity, description, category)
-        if (!name || !description || !price) {
+        if (!name || !price || !quantity || !description || !category || !req.file) {
             return res.status(400).json({
-                error: "Name, description, and price are required."
+                error: "All fields including product image are required."
             });
         }
 
@@ -96,19 +96,22 @@ router.post('/addproduct', authenticateUser, async (req, res) => {
             quantity,
             description,
             category,
+            image: req.file.buffer,
             shop: shop._id
         };
 
-        const product = await productModel.create(productData);
+        const product = await productModel.create(productData); // Corrected model usage here
 
         shop.products.push(product._id);
         await shop.save();
 
-        return res.status(201).redirect('/owners/products')
+        return res.status(201).redirect('/owners/products');
     } catch (error) {
+        console.error("Error occurred:", error);
         return res.status(500).json({ error: "Internal server error." });
     }
 });
+
 
 
 module.exports = router;

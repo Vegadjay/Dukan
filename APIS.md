@@ -89,7 +89,5 @@ Category,
 Desciprion
 
 
-<!-- todo: All pages like name and other thing is done and now do one thing that is make that one thing while user add product than that product goes to their shop product
-
-    ? for that we make that model and in that model we make one product array and in that array we add that all things and make that perfect that is new approach and try that approach
+<!-- todo: To create product with seprate data user and that all are done with image not tomorrow we make that thing we can edit that and also we can delete that product .... GOOD NIGHT
  -->
