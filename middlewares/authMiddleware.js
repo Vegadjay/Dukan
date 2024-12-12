@@ -10,11 +10,7 @@ const authMiddleware = async (req, res, next) => {
             req.user = null;
             return next();
         }
-
-        // Verify the token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-        // Find the user
         const user = await userModel.findById(decoded.userId).select('-password');
 
         if (!user) {
@@ -22,11 +18,9 @@ const authMiddleware = async (req, res, next) => {
             return next();
         }
 
-        // Attach user to request
         req.user = user;
         next();
     } catch (error) {
-        // If token is invalid
         req.user = null;
         next();
     }

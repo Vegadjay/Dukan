@@ -4,40 +4,50 @@ const jwt = require("jsonwebtoken");
 const productModel = require("../models/product-model")
 const shopModel = require("../models/shop-model")
 const ownerModel = require('../models/owner-model');
-
+const authenticateUser = require('../middlewares/authUser');
 
 // (/owners)
 
-const authenticateUser = (req, res, next) => {
-    const token = req.headers.authorization?.split(' ')[1] ||
-        req.cookies.token;
-    if (token) {
-        try {
-            const decoded = jwt.decode(token, process.env.JWT_SECRET);
-            req.user = decoded;
-            next();
-        } catch (error) {
-            console.log("Jwt atuh")
-            return res.status(401).redirect('/error');
-        }
-    } else {
-        return res.status(401).send('No token provided');
-    }
-};
+
 
 router.get('/products', authenticateUser, async (req, res) => {
-    // we got email 
-    // now make that email to all models
-    const products = await productModel.find();
-    const userEmail = req.user.email;
-    const owner = await ownerModel.find({ email: userEmail })
-    const ownerName = owner[0].fullName || "Name Is Not Found"
-    console.log(req.user.email)
-    const shop = await shopModel.find({ ownerEmail: userEmail })
-    console.log(shop)
-    const shopName = shop.shopName || "Name is not found";
-    res.render("showproducts", { products, shop: shopName, owner: ownerName });
-})
+    try {
+        const userEmail = req.user.email;
+
+        const owner = await ownerModel.findOne({ email: userEmail });
+        if (!owner) {
+            return res.status(404).json({
+                error: "Owner not found",
+                message: "No owner account associated with this email"
+            });
+        }
+
+        const shop = await shopModel.findOne({ ownerEmail: userEmail });
+        if (!shop) {
+            return res.status(404).render('showproducts', {
+                error: "No shop found",
+                products: [],
+                shopName: "No Shop",
+                ownerName: owner.fullName || "Unknown Owner"
+            });
+        }
+
+        const products = await productModel.find({ shop: shop._id });
+
+        res.render("showproducts", {
+            products,
+            shopName: shop.shopName || "Unnamed Shop",
+            ownerName: owner.fullName || "Unknown Owner"
+        });
+
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        res.status(500).render('error', {
+            error: "Internal Server Error",
+            message: "Unable to fetch products"
+        });
+    }
+});
 
 router.get('/addproduct', async (req, res) => {
     res.render("addproduct");

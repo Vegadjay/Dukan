@@ -3,84 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Show Products</title>
+    <title>My Products</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             padding-top: 56px;
+            background-color: #f4f6f9;
         }
         .navbar-brand img {
             height: 30px;
+        }
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: calc(100vh - 200px);
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
-    <div class="container-fluid">
-        <!-- Brand Logo -->
-        <a class="navbar-brand d-flex align-items-center" href="/">
-            <img src="https://via.placeholder.com/30" alt="Logo" class="me-2 rounded-circle"> 
-            <span class="fw-bold">Sample Logo</span>
-        </a>
+        <div class="container-fluid">
+            <!-- Brand Logo -->
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="https://via.placeholder.com/30" alt="Logo" class="me-2 rounded-circle"> 
+                <span class="fw-bold">My Store</span>
+            </a>
 
-        <!-- Toggler for Mobile View -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+            <!-- Toggler for Mobile View -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <!-- Navbar Links -->
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto align-items-center">
-                <!-- Shop Name -->
-                <li class="nav-item me-3">
-                    <h5 class="text-primary fw-bold m-0"><%= owner %></h5>
-                </li>
-                
-                <li class="nav-item me-3">
-                    <h5 class="text-primary fw-bold m-0"><%= shop %></h5>
-                </li>
+            <!-- Navbar Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <!-- Shop and Owner Information -->
+                    <% if (locals.owner) { %>
+                        <li class="nav-item me-3">
+                            <span class="text-muted me-2">Welcome,</span>
+                            <h5 class="text-primary fw-bold d-inline m-0"><%= owner %></h5>
+                        </li>
+                    <% } %>
+                    
+                    <% if (locals.shop) { %>
+                        <li class="nav-item me-3">
+                            <span class="text-muted me-2">Shop:</span>
+                            <h5 class="text-success fw-bold d-inline m-0"><%= shop %></h5>
+                        </li>
+                    <% } %>
 
-                <!-- Navigation Links -->
-                <li class="nav-item">
-                    <a class="nav-link btn btn-outline-primary rounded-pill px-3 mx-2" href="/owners/addnewshop">Add New Shop</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link btn btn-outline-success rounded-pill px-3 mx-2" href="/owners/addproduct">Add Product</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link btn btn-outline-warning rounded-pill px-3 mx-2" href="contactus">Contact Us</a>
-                </li>
-
-                <!-- Logout Button -->
-                <li class="nav-item">
-                    <a href="/api/auth/logout" class="btn btn-danger text-white rounded-pill px-4">Logout</a>
-                </li>
-            </ul>
+                    <!-- Navigation Links -->
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-primary rounded-pill px-3 mx-2" href="/owners/addnewshop">
+                            <i class="bi bi-plus-circle me-1"></i>Add New Shop
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-success rounded-pill px-3 mx-2" href="/owners/addproduct">
+                            <i class="bi bi-bag-plus me-1"></i>Add Product
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/api/auth/logout" class="btn btn-danger text-white rounded-pill px-4">
+                            <i class="bi bi-box-arrow-right me-1"></i>Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-
-    <div class="container-fluid">
-        <main class="px-3">
-            <h1 class="h2 my-4 text-center">All Products</h1>
-            <div class="row">
-                <% products.forEach(product => { %>
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                        <div class="card h-100 shadow-sm">
-                            <img src="<%= product.imageUrl %>" class="card-img-top" alt="<%= product.name %>">
-                            <div class="card-body">
-                                <h5 class="card-title"><%= product.name %></h5>
-                                <p class="card-text">Price: $<%= product.price %></p>
-                                <p class="card-text text-muted"><%= product.description %></p>
+    <div class="container-fluid px-4 py-4">
+        <main>
+            <% if (products && products.length > 0) { %>
+                <h1 class="h2 my-4 text-center">All Products (<%= products.length %>)</h1>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+                    <% products.forEach(product => { %>
+                        <div class="col">
+                            <div class="card h-100 shadow-sm">
+                                <img src="<%= product.imageUrl || 'https://via.placeholder.com/300' %>" 
+                                     class="card-img-top" 
+                                     alt="<%= product.name %>" 
+                                     onerror="this.src='https://via.placeholder.com/300'">
+                                <div class="card-body">
+                                    <h5 class="card-title"><%= product.name %></h5>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="h6 text-primary mb-0">$<%= product.price.toFixed(2) %></span>
+                                        <span class="badge bg-secondary">Qty: <%= product.quantity %></span>
+                                    </div>
+                                    <p class="card-text text-muted mt-2 small"><%= product.description %></p>
+                                </div>
+                                <div class="card-footer bg-transparent border-0 d-flex justify-content-between">
+                                    <a href="/edit-product/<%= product._id %>" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-pencil me-1"></i>Edit
+                                    </a>
+                                    <a href="/delete-product/<%= product._id %>" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash me-1"></i>Delete
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                <% }); %>
-            </div>
+                    <% }); %>
+                </div>
+            <% } else { %>
+                <div class="empty-state">
+                    <img src="https://via.placeholder.com/300x200?text=No+Products" alt="No Products" class="mb-4">
+                    <h2 class="text-muted">No Products Found</h2>
+                    <p class="text-muted">Your Shop Is not Registerd Please Register First</p>
+                    <a href="/owners/addnewshop" class="btn btn-primary mt-3">
+                        <i class="bi bi-plus-circle me-2"></i>Add Your First Product
+                    </a>
+                </div>
+            <% } %>
         </main>
     </div>
 
+    <!-- Add Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

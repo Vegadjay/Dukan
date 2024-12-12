@@ -3,6 +3,9 @@ const router = express.Router();
 const shopModel = require("../models/shop-model");
 const ownerModel = require("../models/owner-model");
 const productModel = require('../models/product-model')
+const jwt = require("jsonwebtoken");
+const authenticateUser = require('../middlewares/authUser');
+
 
 router.post("/addshop", async (req, res) => {
     try {
@@ -66,15 +69,46 @@ router.post("/addshop", async (req, res) => {
 });
 
 
-router.post('/addproduct', async (req, res) => {
+router.post('/addproduct', authenticateUser, async (req, res) => {
     try {
+        const ownerEmail = req.user.email;
+
+        const { name, price, quantity, description, category } = req.body;
+
+        console.log(name, price, quantity, description, category)
+        if (!name || !description || !price) {
+            return res.status(400).json({
+                error: "Name, description, and price are required."
+            });
+        }
+
+        const shop = await shopModel.findOne({ ownerEmail });
+
+        if (!shop) {
+            return res.status(404).json({
+                error: "Shop not found for the provided owner email."
+            });
+        }
+
+        const productData = {
+            name,
+            price,
+            quantity,
+            description,
+            category,
+            shop: shop._id
+        };
+
         const product = await productModel.create(productData);
 
-        await shopModel.findByIdAndUpdate(shopId, { $push: { products: product._id } });
+        shop.products.push(product._id);
+        await shop.save();
 
-        console.log('Product added to shop successfully');
+        return res.status(201).redirect('/owners/products')
     } catch (error) {
-        console.error('Error adding product to shop:', error);
+        return res.status(500).json({ error: "Internal server error." });
     }
-})
+});
+
+
 module.exports = router;

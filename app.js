@@ -42,6 +42,7 @@ app.use(
     },
   })
 );
+
 app.use(flash());
 
 // Call database connection
@@ -66,6 +67,7 @@ app.use("/products", productsRoutes);
 app.use("/users", userShopRoutes);
 app.use("/owners", ownersRoutes);
 app.use("/shop", shopController);
+
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {

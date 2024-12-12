@@ -3,82 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Product</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Add Product</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
-                <div class="position-sticky pt-3">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/owners/products">
-                                Show All Products
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-
-            <!-- Main Content -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <h1 class="h2 my-4">Create Product</h1>
-                <form action="/create-product" method="POST" enctype="multipart/form-data">
-                    <!-- Shop ID -->
-                    <div class="mb-3">
-                        <label for="shopId" class="form-label">Shop ID</label>
-                        <input type="text" class="form-control" id="shopId" name="shopId" required>
-                        <div class="invalid-feedback">
-                            Please provide the Shop ID.
-                        </div>
-                    </div>
-
-                    <!-- Product Name -->
-                    <div class="mb-3">
-                        <label for="productName" class="form-label">Product Name</label>
-                        <input type="text" class="form-control" id="productName" name="name" required>
-                        <div class="invalid-feedback">
-                            Please provide a product name.
-                        </div>
-                    </div>
-
-                    <!-- Price -->
-                    <div class="mb-3">
-                        <label for="productPrice" class="form-label">Price</label>
-                        <input type="number" class="form-control" id="productPrice" name="price" required>
-                        <div class="invalid-feedback">
-                            Please provide a valid price.
-                        </div>
-                    </div>
-
-                    <!-- Quantity -->
-                    <div class="mb-3">
-                        <label for="productQuantity" class="form-label">Quantity</label>
-                        <input type="number" class="form-control" id="productQuantity" name="quantity" required>
-                        <div class="invalid-feedback">
-                            Please provide the quantity.
-                        </div>
-                    </div>
-
-                    <!-- Category -->
-                    <div class="mb-3">
-                        <label for="productCategory" class="form-label">Category</label>
-                        <input type="text" class="form-control" id="productCategory" name="category">
-                    </div>
-
-                    <!-- Description -->
-                    <div class="mb-3">
-                        <label for="productDescription" class="form-label">Description</label>
-                        <textarea class="form-control" id="productDescription" name="description" rows="4"></textarea>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </main>
-        </div>
+    <div class="container mt-5">
+        <h2>Add New Product</h2>
+        <form id="productForm" action="/shop/addproduct" method="POST">
+            <div class="mb-3">
+                <label for="name" class="form-label">Product Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="price" class="form-label">Price</label>
+                <input type="number" class="form-control" id="price" name="price" step="0.01" min="0" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="quantity" class="form-label">Quantity</label>
+                <input type="number" class="form-control" id="quantity" name="quantity" min="0" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="category" class="form-label">Category</label>
+                <input type="text" class="form-control" id="category" name="category">
+            </div>
+            
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Add Product</button>
+        </form>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

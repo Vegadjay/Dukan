@@ -16,9 +16,18 @@ const productSchema = new mongoose.Schema({
         required: true,
         min: 0
     },
-    description: {
+    category: {
         type: String,
         trim: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    shop: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Shop',
+        required: true
     },
     createdAt: {
         type: Date,

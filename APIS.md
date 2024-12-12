@@ -75,6 +75,20 @@ shop Owner
     shops,
     contact
 
+(backend Api that use for make product)
+
+/owners/addproduct:- Here All product is made
+
+
+(Require things for add product)
+
+Product Name
+Price
+Qauntity
+Category,
+Desciprion
+
+
 <!-- todo: All pages like name and other thing is done and now do one thing that is make that one thing while user add product than that product goes to their shop product
 
     ? for that we make that model and in that model we make one product array and in that array we add that all things and make that perfect that is new approach and try that approach
