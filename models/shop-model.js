@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const productModel = require('./product-model'); // Import the product model
 
 const shopSchema = new mongoose.Schema({
     ownerName: {
@@ -8,27 +9,33 @@ const shopSchema = new mongoose.Schema({
     },
     ownerNo: {
         type: Number,
-        require: true,
+        required: true,
     },
     ownerEmail: {
         type: String,
-        require: true
+        required: true
     },
     shopName: {
         type: String,
-        require: true
+        required: true
     },
     shopAddress: {
         type: String,
         required: true,
         trim: true
     },
+    products: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Product' // Reference to the Product model
+        }
+    ],
     createdAt: {
         type: Date,
         default: Date.now
     }
 });
 
-const model = mongoose.model('Shop', shopSchema);
+const Shop = mongoose.model('Shop', shopSchema);
 
-module.exports = model;
+module.exports = Shop;

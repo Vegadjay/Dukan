@@ -6,9 +6,8 @@ require("dotenv").config();
 
 const connectMongodb = async () => {
     try {
-        await mongoose.connect(`${config.get("MONGODB_URI")}/scatch`).then(()=>{
-        console.log("Connection is confirmed... ")
-    })
+        await mongoose.connect(`${config.get("MONGODB_URI")}/scatch`).then(() => {
+        })
     } catch (err) {
         console.log(err)
     }

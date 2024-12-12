@@ -29,38 +29,52 @@ router.post("/addshop", async (req, res) => {
             shopName: shopName
         });
 
-        const ownername = owner.fullName || "Owner Name Is Not Provided"
-        if (!existingShop) {
-
-            await shopModel.create({
-                ownerName,
-                ownerNo,
-                shopName,
-                shopAddress,
-                ownerEmail,
-                owner: owner._id
-            });
-
-            const product = await productModel.find();
-
-            return res.status(200).render('showproducts', {
-                successMessage: "Shop registered successfully!",
-                errorMessage: "Nothing",
-                owner: ownername,
-                shop: shopName,
-                products: product
+        if (existingShop) {
+            return res.render('add-shop', {
+                errorMessage: "A shop with this name already exists for this owner.",
+                successMessage: "Nothing"
             });
         }
 
-        return res.render('add-shop', {
-            errorMessage: "A shop with this name already exists for this owner.",
-            successMessage: "Nothing"
+        const ownername = owner.fullName || "Owner Name Is Not Provided";
+
+        await shopModel.create({
+            ownerName,
+            ownerNo,
+            shopName,
+            shopAddress,
+            ownerEmail,
+            owner: owner._id
         });
 
+        const products = await productModel.find();
+
+        return res.status(200).render('showproducts', {
+            successMessage: "Shop registered successfully!",
+            errorMessage: "Nothing",
+            owner: ownername,
+            shop: shopName,
+            products: products
+        });
     } catch (err) {
         console.error("Error occurred:", err);
-        return res.status(500).redirect('/error');
+        return res.status(500).render('error', {
+            errorMessage: "An unexpected error occurred. Please try again later.",
+            successMessage: "Nothing"
+        });
     }
 });
 
+
+router.post('/addproduct', async (req, res) => {
+    try {
+        const product = await productModel.create(productData);
+
+        await shopModel.findByIdAndUpdate(shopId, { $push: { products: product._id } });
+
+        console.log('Product added to shop successfully');
+    } catch (error) {
+        console.error('Error adding product to shop:', error);
+    }
+})
 module.exports = router;

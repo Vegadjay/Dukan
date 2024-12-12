@@ -75,4 +75,7 @@ shop Owner
     shops,
     contact
 
-<!-- todo: Here in this code there is one error on model that we have to solve and make one new model using this new shop model and also modify that owner model -->
+<!-- todo: All pages like name and other thing is done and now do one thing that is make that one thing while user add product than that product goes to their shop product
+
+    ? for that we make that model and in that model we make one product array and in that array we add that all things and make that perfect that is new approach and try that approach
+ -->
