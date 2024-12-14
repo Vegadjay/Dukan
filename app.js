@@ -6,6 +6,7 @@ const cors = require("cors");
 const flash = require("connect-flash");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
+const methodOverride = require('method-override');
 const helmet = require("helmet");
 const productsRoutes = require("./routes/product.routes");
 const authPages = require("./routes/authpage.routes");
@@ -28,6 +29,7 @@ app.use(express.static("public"));
 app.use(morgan("dev"));
 app.use(helmet());
 app.use(cors());
+app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(
@@ -75,7 +77,7 @@ app.use((err, req, res, next) => {
   if (res.headersSent) {
     return next(err);
   }
-  res.status(500).render("/error", { errorMessage: "Internal Server Error" });
+  res.status(500).render("/error");
 });
 
 // Start the server

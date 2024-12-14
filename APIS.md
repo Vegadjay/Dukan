@@ -20,7 +20,7 @@ Generate one api readme for me i gave you all apis + routes make one readme
 
 ## (apis)
 (This is api endpoints that user can intrect)
-
+(auth apis)
 /api/auth/users/register:- In This endpoint new user make
 
 /api/auth/users/login:- In This endpoint user can login
@@ -31,6 +31,25 @@ Generate one api readme for me i gave you all apis + routes make one readme
 
 /api/auth/logout:- this is that endpoint that both type of user can logout
 
+(product apis):- 
+    {
+        -> This Product route create two things one is pages and second is api
+
+        -> Api is do work and there are 4 routes that show only pages that is show all details
+    }
+
+(routes):- 
+/products/createproduct :- Show page that we can create product
+
+/products/create:- This is api that create product request goes
+
+/product/editproduct/:id :- This is page that we can edit product
+
+/product/edit/:id :- this is api that we hit and we can edit over project
+
+/product/deleteproduct/:id :- This is route and in this route we can check confirm to delete or not
+
+/product/deleteproduct/:productId :- this is api that our product is delete.
 
 ## Other Routes
 
@@ -88,7 +107,6 @@ Qauntity
 Category,
 Desciprion
 
-<!-- ! Update Read me -->
 
-<!-- todo: To create product with seprate data user and that all are done with image not tomorrow we make that thing we can edit that and also we can delete that product .... GOOD NIGHT
+<!-- todo: Last:- we can edit product but that route is not set so make that route and make it more efficiant and change that ejs file because while we do that on ejs file than that is change very diff so we can make that on backend process.....
  -->

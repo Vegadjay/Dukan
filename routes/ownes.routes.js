@@ -44,7 +44,7 @@ router.get('/products', authenticateUser, async (req, res) => {
         });
 
         // Render the page with products
-        res.render("showproducts", {
+        res.render("show-products", {
             products: productsWithBase64Images,
             shopName: shop.shopName || "Unnamed Shop",
             ownerName: owner.fullName || "Unknown Owner"
@@ -61,7 +61,7 @@ router.get('/products', authenticateUser, async (req, res) => {
 
 
 router.get('/addproduct', async (req, res) => {
-    res.render("addproduct");
+    res.render("add-product");
 })
 
 router.get('/addnewshop', async (req, res) => {

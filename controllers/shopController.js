@@ -54,7 +54,7 @@ router.post("/addshop", async (req, res) => {
 
         const products = await productModel.find();
 
-        return res.status(200).render('showproducts', {
+        return res.status(200).render('show-products', {
             successMessage: "Shop registered successfully!",
             errorMessage: "Nothing",
             owner: ownername,
@@ -71,46 +71,7 @@ router.post("/addshop", async (req, res) => {
 });
 
 
-router.post('/addproduct', authenticateUser, upload.single('productImage'), async (req, res) => {
-    try {
-        const ownerEmail = req.user.email;
-        const { name, price, quantity, description, category } = req.body;
 
-        if (!name || !price || !quantity || !description || !category || !req.file) {
-            return res.status(400).json({
-                error: "All fields including product image are required."
-            });
-        }
-
-        const shop = await shopModel.findOne({ ownerEmail });
-
-        if (!shop) {
-            return res.status(404).json({
-                error: "Shop not found for the provided owner email."
-            });
-        }
-
-        const productData = {
-            name,
-            price,
-            quantity,
-            description,
-            category,
-            image: req.file.buffer,
-            shop: shop._id
-        };
-
-        const product = await productModel.create(productData); // Corrected model usage here
-
-        shop.products.push(product._id);
-        await shop.save();
-
-        return res.status(201).redirect('/owners/products');
-    } catch (error) {
-        console.error("Error occurred:", error);
-        return res.status(500).json({ error: "Internal server error." });
-    }
-});
 
 
 

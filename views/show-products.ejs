@@ -148,7 +148,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link btn btn-outline-success rounded-pill px-3 mx-2"
-                                            href="/owners/addproduct">
+                                            href="/products/createproduct">
                                             <i class="bi bi-bag-plus me-1"></i>Add Product
                                         </a>
                                     </li>
@@ -187,10 +187,12 @@
                                     </p>
                                 </div>
                                 <div class="card-footer bg-transparent border-0 d-flex justify-content-between">
-                                    <a href="/edit-product/<%= product._id %>" class="btn btn-sm btn-outline-primary">
+                                    <a href="/products/editproduct/<%= product._id %>"
+                                        class="btn btn-sm btn-outline-primary">
                                         <i class="bi bi-pencil me-1"></i>Edit
                                     </a>
-                                    <a href="/delete-product/<%= product._id %>" class="btn btn-sm btn-outline-danger">
+                                    <a href="/products/deleteproduct/<%= product._id %>"
+                                        class="btn btn-sm btn-outline-danger">
                                         <i class="bi bi-trash me-1"></i>Delete
                                     </a>
                                 </div>
