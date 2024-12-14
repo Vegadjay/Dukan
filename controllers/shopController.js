@@ -3,11 +3,10 @@ const router = express.Router();
 const shopModel = require("../models/shop-model");
 const ownerModel = require("../models/owner-model");
 const productModel = require('../models/product-model')
-const multer = require('multer');
-const authenticateUser = require('../middlewares/authUser');
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
+
+//todo: First check user has shop or not (If User has no shop than first Register as a shop owner other wise we show all product of their shop owner) 
+
 
 router.post("/addshop", async (req, res) => {
     try {

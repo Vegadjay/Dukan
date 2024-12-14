@@ -42,7 +42,7 @@ router.post('/create', authenticateUser, upload.single('productImage'), async (r
             shop: shop._id
         };
 
-        const product = await productModel.create(productData); // Corrected model usage here
+        const product = await productModel.create(productData);
 
         shop.products.push(product._id);
         await shop.save();

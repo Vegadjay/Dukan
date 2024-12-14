@@ -108,5 +108,5 @@ Category,
 Desciprion
 
 
-<!-- todo: Last:- we can edit product but that route is not set so make that route and make it more efficiant and change that ejs file because while we do that on ejs file than that is change very diff so we can make that on backend process.....
+<!-- todo: Last:- So in last all thing is working good do one thing now while other user is come and login than this is not working like user has shop than also this is not allow to add product as it is so fix that all things...
  -->

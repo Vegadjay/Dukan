@@ -7,6 +7,8 @@ const userModel = require("../models/user-model");
 const flashMessages = require("../utils/flashMessages")
 const authLogout = require("../middlewares/isLoggedin")
 
+
+// User can register here
 router.post("/users/register", async (req, res) => {
     const { fullName, email, password } = req.body;
     try {
@@ -32,13 +34,14 @@ router.post("/users/register", async (req, res) => {
             sameSite: true,
         });
         req.flash("success", flashMessages.success.userRegistered);
-        res.status(200).redirect("/users/shop");
+        res.status(200).redirect("/users/items");
     } catch (err) {
         req.flash("error", flashMessages.error.serverError);
         res.status(500).send(flashMessages.error.serverError);
     }
 });
 
+// user can login here
 router.post("/users/login", async (req, res) => {
     const { email, password } = req.body;
 
@@ -52,7 +55,7 @@ router.post("/users/login", async (req, res) => {
 
         if (!user || !(await bcrypt.compare(password, user.password))) {
             req.flash("error", "Invalid email or password");
-            return res.status(400).redirect('/login');
+            return res.status(400).redirect('/auth/pages/users/loginpage');
         }
 
         const token = generateToken(user);
@@ -70,7 +73,7 @@ router.post("/users/login", async (req, res) => {
     }
 });
 
-
+// owner can regitser here
 router.post("/owner/register", async (req, res) => {
     const { fullName, email, password, shopAddress, contact } = req.body;
 
@@ -113,9 +116,7 @@ router.post("/owner/register", async (req, res) => {
     }
 });
 
-module.exports = router;
-
-
+// owner can login here
 router.post("/owner/login", async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -145,6 +146,7 @@ router.post("/owner/login", async (req, res) => {
     }
 });
 
+// owner and user both can logout from here
 router.get('/logout', function (req, res) {
     try {
 

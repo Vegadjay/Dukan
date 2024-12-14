@@ -24,7 +24,7 @@ router.get('/products', authenticateUser, async (req, res) => {
 
         const shop = await shopModel.findOne({ ownerEmail: userEmail });
         if (!shop) {
-            return res.status(404).render('showproducts', {
+            return res.status(404).render('show-products', {
                 error: "No shop found",
                 products: [],
                 shopName: "No Shop",

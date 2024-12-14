@@ -4,26 +4,35 @@ const productModel = require("../models/product-model")
 
 router.get("/shopdetails", async (req, res) => {
     try {
-        const successMessage = req.flash("success");    
+        const successMessage = req.flash("success");
         const errorMessage = req.flash("error");
         const products = await productModel.find();
-        
+
         const userName = req.user ? req.user.fullName : "Guest";
         const userEmail = req.user ? req.user.email : "guest@example.com";
 
-        res.render("dukan", { 
+        res.render("dukan", {
             products,
             successMessage,
-            errorMessage, 
+            errorMessage,
             userName,
             userEmail
         });
-        
+
     } catch (err) {
         req.flash("error", "Unable to load products. Please try again.");
         console.error(err);
         res.redirect("/error");
     }
 });
+
+
+// show all shop details
+router.get("/items", (req, res) => {
+    const products = productModel.find();
+
+    res.render("user-show-product", { products })
+})
+
 
 module.exports = router
