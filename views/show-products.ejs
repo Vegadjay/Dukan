@@ -122,41 +122,32 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
-                    <% if (locals.owner) { %>
+                    <li class="nav-item me-3">
+                        <span class="text-muted me-2">Welcome,</span>
+                        <h5 class="text-primary fw-bold d-inline m-0">
+                            <%= owner %>
+                        </h5>
+                    </li>
+
+                    <% if (locals.shop) { %>
                         <li class="nav-item me-3">
-                            <span class="text-muted me-2">Welcome,</span>
-                            <h5 class="text-primary fw-bold d-inline m-0">
-                                <%= owner %>
+                            <span class="text-muted me-2">Shop Name:</span>
+                            <h5 class="text-success fw-bold d-inline m-0">
+                                <%= shop %>
                             </h5>
                         </li>
                         <% } %>
-
-                            <% if (locals.shop) { %>
-                                <li class="nav-item me-3">
-                                    <span class="text-muted me-2">Shop:</span>
-                                    <h5 class="text-success fw-bold d-inline m-0">
-                                        <%= shop %>
-                                    </h5>
-                                </li>
-                                <% } %>
-
-                                    <li class="nav-item">
-                                        <a class="nav-link btn btn-outline-primary rounded-pill px-3 mx-2"
-                                            href="/owners/addnewshop">
-                                            <i class="bi bi-plus-circle me-1"></i>Add New Shop
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link btn btn-outline-success rounded-pill px-3 mx-2"
-                                            href="/products/createproduct">
-                                            <i class="bi bi-bag-plus me-1"></i>Add Product
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="/api/auth/logout" class="btn btn-danger text-white rounded-pill px-4">
-                                            <i class="bi bi-box-arrow-right me-1"></i>Logout
-                                        </a>
-                                    </li>
+                            <li class="nav-item">
+                                <a class="nav-link btn btn-outline-success rounded-pill px-3 mx-2"
+                                    href="/products/createproduct">
+                                    <i class="bi bi-bag-plus me-1"></i>Add Product
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/api/auth/logout" class="btn btn-danger text-white rounded-pill px-4">
+                                    <i class="bi bi-box-arrow-right me-1"></i>Logout
+                                </a>
+                            </li>
                 </ul>
             </div>
         </div>

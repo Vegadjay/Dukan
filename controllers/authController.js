@@ -107,7 +107,7 @@ router.post("/owner/register", async (req, res) => {
             sameSite: "strict",
         });
 
-        res.status(201).redirect('/owners/products')
+        res.status(201).redirect('/owners/addshop')
     } catch (err) {
         res.status(500).json({
             success: false,

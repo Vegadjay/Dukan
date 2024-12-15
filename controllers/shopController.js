@@ -2,13 +2,10 @@ const express = require("express");
 const router = express.Router();
 const shopModel = require("../models/shop-model");
 const ownerModel = require("../models/owner-model");
-const productModel = require('../models/product-model')
+const productModel = require('../models/product-model');
+const authenticateUser = require('../middlewares/authMiddleware');
 
-
-//todo: First check user has shop or not (If User has no shop than first Register as a shop owner other wise we show all product of their shop owner) 
-
-
-router.post("/addshop", async (req, res) => {
+router.post("/addshop", authenticateUser, async (req, res) => {
     try {
         const { ownerName, ownerNo, ownerEmail, shopName, shopAddress } = req.body;
 
@@ -19,6 +16,7 @@ router.post("/addshop", async (req, res) => {
             });
         }
 
+        // Check if the owner exists
         const owner = await ownerModel.findOne({ email: ownerEmail });
 
         if (!owner) {
@@ -28,9 +26,9 @@ router.post("/addshop", async (req, res) => {
             });
         }
 
+        // Check if the shop already exists for this owner
         const existingShop = await shopModel.findOne({
             ownerEmail: ownerEmail,
-            shopName: shopName
         });
 
         if (existingShop) {
@@ -51,7 +49,18 @@ router.post("/addshop", async (req, res) => {
             owner: owner._id
         });
 
-        const products = await productModel.find();
+        // Fetch products for the shop
+        const products = await productModel.find({ ownerEmail });
+
+        if (products.length === 0) {
+            return res.status(200).render('show-products', {
+                successMessage: "Shop registered successfully!",
+                errorMessage: "No products available for this shop.",
+                owner: ownername,
+                shop: shopName,
+                products: []
+            });
+        }
 
         return res.status(200).render('show-products', {
             successMessage: "Shop registered successfully!",
@@ -68,10 +77,5 @@ router.post("/addshop", async (req, res) => {
         });
     }
 });
-
-
-
-
-
 
 module.exports = router;

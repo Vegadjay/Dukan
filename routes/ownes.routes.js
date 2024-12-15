@@ -24,12 +24,7 @@ router.get('/products', authenticateUser, async (req, res) => {
 
         const shop = await shopModel.findOne({ ownerEmail: userEmail });
         if (!shop) {
-            return res.status(404).render('show-products', {
-                error: "No shop found",
-                products: [],
-                shopName: "No Shop",
-                ownerName: owner.fullName || "Unknown Owner"
-            });
+            return res.status(404).redirect('/owners/addshop')
         }
 
         // Fetch products for the shop
@@ -38,7 +33,7 @@ router.get('/products', authenticateUser, async (req, res) => {
         // Convert the image buffer to Base64 for each product
         const productsWithBase64Images = products.map(product => {
             if (product.image) {
-                product.image = product.image.toString('base64');  // Convert buffer to base64 string
+                product.image = product.image.toString('base64');
             }
             return product;
         });
@@ -46,8 +41,8 @@ router.get('/products', authenticateUser, async (req, res) => {
         // Render the page with products
         res.render("show-products", {
             products: productsWithBase64Images,
-            shopName: shop.shopName || "Unnamed Shop",
-            ownerName: owner.fullName || "Unknown Owner"
+            shop: shop.shopName || "Unnamed Shop",
+            owner: owner.fullName || "Unknown Owner"
         });
 
     } catch (error) {
@@ -58,7 +53,6 @@ router.get('/products', authenticateUser, async (req, res) => {
         });
     }
 });
-
 
 router.get('/addproduct', async (req, res) => {
     res.render("add-product");
@@ -77,5 +71,14 @@ router.get("/contactus", (req, res) => {
     res.render('contact');
 })
 
+// if user is new than goes to register shop.
+router.get('/addshop', (req, res) => {
+    const successMessage = req.flash("success");
+    const errorMessage = req.flash("error");
+    res.render('add-shop', {
+        successMessage,
+        errorMessage
+    });
+})
 
 module.exports = router
