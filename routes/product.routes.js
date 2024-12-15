@@ -134,7 +134,15 @@ router.post('/deleteproduct/:productId', async (req, res) => {
     }
 });
 
+// show product details
+router.get("/product/:id", (req, res) => {
+    const productId = req.params.id;
+    const product = productModel.findOne({ productId })
 
+    console.log("product id: ", productId)
+
+    res.render("product-details")
+})
 
 
 module.exports = router
