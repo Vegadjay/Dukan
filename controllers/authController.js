@@ -34,7 +34,7 @@ router.post("/users/register", async (req, res) => {
             sameSite: true,
         });
         req.flash("success", flashMessages.success.userRegistered);
-        res.status(200).redirect("/users/items");
+        res.status(200).redirect('/users/shopdetails');
     } catch (err) {
         req.flash("error", flashMessages.error.serverError);
         res.status(500).send(flashMessages.error.serverError);
@@ -139,7 +139,7 @@ router.post("/owner/login", async (req, res) => {
             sameSite: true,
         });
         req.flash("success", flashMessages.success.ownerLoggedIn);
-        res.status(200).redirect("/owners/products");;
+        res.status(200).redirect("/owners/products");
     } catch (err) {
         req.flash("error", flashMessages.error.serverError);
         res.status(500).send(flashMessages.error.serverError);

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <link rel="icon" type="image/x-icon" href="/Logo.webp">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css"
+        rel="stylesheet">
+    <style>
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .navbar {
+            border-bottom: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar .nav-link {
+            color: #333;
+        }
+
+        .navbar .nav-link:hover {
+            color: #007bff;
+        }
+
+        .logout-btn {
+            margin-left: auto;
+            color: #dc3545;
+            font-weight: bold;
+            border: 1px solid #dc3545;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .logout-btn:hover {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .product-details-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .product-info {
+            max-width: 600px;
+        }
+
+        .payment-description {
+            margin-top: 20px;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .payment-description h4 {
+            font-size: 1.5rem;
+        }
+
+        .buy-btn {
+            background-color: #28a745;
+            color: white;
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .buy-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-white">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="/Logo.webp" alt="Logo" height="40">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <a href="/api/auth/logout" class="logout-btn">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="product-details-container">
+            <!-- Product Info (simplified) -->
+            <div class="product-info">
+                <h2>Product Name</h2>
+                <h4>Price: ₹ 1000</h4>
+                <a href="/buy" class="buy-btn">Buy Now</a>
+            </div>
+        </div>
+
+        <!-- Payment Description Section -->
+        <div class="payment-description">
+            <h4>Payment Details</h4>
+            <p>We accept a variety of payment methods including credit cards, debit cards, and UPI payments. Secure
+                transactions are guaranteed for your safety.</p>
+            <p>After completing the purchase, you will receive an email confirmation along with your receipt and
+                shipping details.</p>
+            <p><strong>Note:</strong> For any assistance regarding payment or shipping, feel free to contact our support
+                team.</p>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

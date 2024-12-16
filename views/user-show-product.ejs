@@ -46,8 +46,10 @@
 
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            /* Adjusted to be responsive */
             gap: 20px;
+            margin-top: 20px;
         }
 
         .card {
@@ -65,7 +67,6 @@
         .card-img-top {
             border-top-left-radius: 8px;
             border-top-right-radius: 8px;
-            overflow: hidden;
             width: 100%;
             height: 200px;
             object-fit: cover;
@@ -92,6 +93,12 @@
         .sidebar a:hover {
             text-decoration: underline;
         }
+
+        .no-products-message {
+            font-size: 1.25rem;
+            text-align: center;
+            color: #777;
+        }
     </style>
 </head>
 
@@ -100,24 +107,13 @@
     <nav class="navbar navbar-expand-lg bg-white">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <img src="/path-to-logo.png" alt="Logo" height="40">
+                <img src="/Logo.webp" alt="Logo" height="40">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Cart <i class="bi bi-cart"></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <span class="nav-link">Hello, <%= userName %>!</span>
-                    </li>
-                </ul>
                 <a href="/api/auth/logout" class="logout-btn">Logout</a>
             </div>
         </div>
@@ -125,15 +121,6 @@
 
     <div class="container mt-5">
         <div class="main-content">
-            <!-- Sidebar -->
-            <div class="sidebar">
-                <h4>Categories</h4>
-                <a href="#">All Products</a>
-                <a href="#">New Arrivals</a>
-                <a href="#">Best Sellers</a>
-                <a href="#">Discounted Items</a>
-            </div>
-
             <!-- Main Content Area -->
             <div class="content-area">
                 <div class="product-grid">
@@ -149,10 +136,8 @@
                                     <p class="card-text">₹ <%= product.price %>
                                     </p>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <a href="#" class="btn btn-outline-primary btn-sm">
-                                            <i class="bi bi-cart-plus"></i> Add to Cart
-                                        </a>
-                                        <a href="#" class="btn btn-primary btn-sm">Shop Now</a>
+                                        <a href="/products/payment" class="btn btn-primary btn-sm">Shop
+                                            Now</a>
                                     </div>
                                 </div>
                             </div>

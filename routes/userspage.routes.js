@@ -9,17 +9,10 @@ router.get("/shopdetails", authUser, async (req, res) => {
         const successMessage = req.flash("success");
         const errorMessage = req.flash("error");
         const products = await productModel.find();
-
-        const userName = req.user ? req.user.fullName : "Guest";
-        const userEmail = req.user ? req.user.email : "guest@example.com";
-
-
         res.render("user-show-product", {
             products,
             successMessage,
             errorMessage,
-            userName,
-            userEmail
         });
 
     } catch (err) {
