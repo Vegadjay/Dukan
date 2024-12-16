@@ -146,10 +146,6 @@ router.get("/product/:id", (req, res) => {
 
 router.get("/payment", async (req, res) => {
     try {
-        // const product = await productModel.findById(req.params.id);
-        // if (!product) {
-        //     return res.status(404).send("Product not found.");
-        // }
         res.render("confirm-payment");
     } catch (err) {
         console.error(err);
