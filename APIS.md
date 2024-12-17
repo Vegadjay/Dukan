@@ -106,5 +106,3 @@ Price
 Qauntity
 Category,
 Desciprion
-
-<!-- todo:Git Tasting -->
