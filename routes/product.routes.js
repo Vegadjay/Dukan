@@ -4,7 +4,7 @@ const upload = require("../config/multerConfig")
 const productModel = require("../models/product-model")
 const shopModel = require("../models/shop-model");
 const authenticateUser = require('../middlewares/authUser');
-
+const orderModel = require('../models/order-model')
 // This file contain pages of product and also contains that api for working like we edit product and also we can delete product. 
 
 // use for show that create page
@@ -144,9 +144,84 @@ router.get("/product/:id", (req, res) => {
     res.render("product-details")
 })
 
-router.get("/payment", async (req, res) => {
+
+router.get("/payment/:id", async (req, res) => {
     try {
-        res.render("confirm-payment");
+        const productId = req.params.id;
+        const product = await productModel.findById(productId);
+
+        const Image = product.image ? `data:image/jpeg;base64,${product.image.toString('base64')}` : null;
+
+        res.render("confirm-payment", {
+            productName: product.name,
+            price: product.price,
+            description: product.description,
+            image: Image
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server error");
+    }
+});
+
+
+router.get("/productdetails/:id", async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const product = await productModel.findById(productId);
+        if (!product) {
+            return res.status(404).send("Product not found");
+        }
+        const Image = product.image ? `data:image/jpeg;base64,${product.image.toString('base64')}` : null;
+        res.render("products", {
+            product, Image, productId
+        });
+    } catch (error) {
+        console.error("Error fetching product:", error);
+        res.status(500).send("An error occurred");
+    }
+});
+
+
+// todo: Start From here this code is not working what is reason check that and write from here.
+router.post("/submit-order", async (req, res) => {
+    try {
+        const { address, paymentMethod } = req.body;
+        const productId = req.params.id;
+        const newOrder = new orderModel({
+            productId,
+            address,
+            paymentMethod,
+            status: 'Confirmed',
+            date: new Date()
+        });
+
+        await newOrder.save();
+
+        res.redirect(`/order-confirmation/${newOrder._id}`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server error");
+    }
+});
+
+
+router.get("/order-confirmation/:orderId", async (req, res) => {
+    try {
+        const orderId = req.params.orderId;
+        const order = await orderModel.findById(orderId);
+
+        if (!order) {
+            return res.status(404).send("Order not found");
+        }
+
+        res.render("order-confirmed", {
+            orderId: order._id,
+            productName: order.productName,
+            address: order.address,
+            paymentMethod: order.paymentMethod,
+            status: order.status
+        });
     } catch (err) {
         console.error(err);
         res.status(500).send("Server error");

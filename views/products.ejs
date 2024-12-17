@@ -5,16 +5,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Details</title>
-    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .product-image {
             max-width: 100%;
             height: auto;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-image:hover {
+            transform: scale(1.2);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
 
         .product-details {
             padding: 20px;
+        }
+
+        .product-category {
+            font-size: 1rem;
+            color: #6c757d;
+        }
+
+        .product-price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .product-quantity {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .additional-content {
+            margin-top: 50px;
+            padding: 30px;
+            background-color: #f1f1f1;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .additional-content h3 {
+            font-size: 2rem;
+            color: #343a40;
+        }
+
+        .additional-content p {
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        .feature-box {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-box h4 {
+            font-size: 1.4rem;
+            color: #495057;
+        }
+
+        .feature-box p {
+            font-size: 1rem;
+            color: #6c757d;
         }
     </style>
 </head>
@@ -22,18 +85,51 @@
 <body>
     <div class="container mt-5">
         <div class="row">
-            <!-- Product Image -->
             <div class="col-md-6">
-                <img src="path_to_product_image.jpg" alt="Product Name" class="product-image">
+                <img src="<%= Image %>" alt="<%= product.name %>" class="product-image h-100 w-75">
             </div>
-            <!-- Product Details -->
             <div class="col-md-6 product-details">
-                <h2>Product Name</h2>
-                <p class="text-muted">Brand: Example Brand</p>
-                <h4 class="text-primary">$99.99</h4>
-                <p>Product description goes here. Highlight key features and specifications to inform potential
-                    customers.</p>
-                <button class="btn btn-success btn-lg">Add to Cart</button>
+                <h2>
+                    <%= product.name %>
+                </h2>
+                <p class="product-category">Category: <%= product.category %>
+                </p>
+                <p class="product-price">
+                    <i class="fas fa-indian-rupee-sign"></i>
+                    <%= product.price %>
+                </p>
+                <p class="product-quantity">Available Quantity: <%= product.quantity %>
+                </p>
+                <p>Description:</p>
+                <p>
+                    <%= product.description %>
+                </p>
+                <p>Shop: <%= product.shop %>
+                </p>
+                <a href="/products/payment/<%= productId %>">
+                    <button class="btn btn-success btn-lg">Buy Now</button>
+                </a>
+            </div>
+        </div>
+        <div class="additional-content">
+            <h3>More About Our Products</h3>
+            <p>Explore a wide range of high-quality products tailored to meet your needs. From electronics to fashion,
+                our store has it all!</p>
+            <p>Don't miss out on our exclusive offers and discounts. Shop now and enjoy the best shopping experience!
+            </p>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-4 feature-box">
+                <h4>Free Shipping</h4>
+                <p>Enjoy free shipping on all orders above $50. Shop now and save more!</p>
+            </div>
+            <div class="col-md-4 feature-box">
+                <h4>Secure Payment</h4>
+                <p>Your transactions are safe with our top-notch security measures.</p>
+            </div>
+            <div class="col-md-4 feature-box">
+                <h4>24/7 Support</h4>
+                <p>Our customer support team is available around the clock to assist you.</p>
             </div>
         </div>
     </div>
