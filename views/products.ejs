@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .product-image {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .product-details {
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Product Image -->
+            <div class="col-md-6">
+                <img src="path_to_product_image.jpg" alt="Product Name" class="product-image">
+            </div>
+            <!-- Product Details -->
+            <div class="col-md-6 product-details">
+                <h2>Product Name</h2>
+                <p class="text-muted">Brand: Example Brand</p>
+                <h4 class="text-primary">$99.99</h4>
+                <p>Product description goes here. Highlight key features and specifications to inform potential
+                    customers.</p>
+                <button class="btn btn-success btn-lg">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>
