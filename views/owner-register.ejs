@@ -5,89 +5,202 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Owner Registration</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/Logo.webp">
+    <style>
+        :root {
+            --primary-color: #28a745;
+            --gradient-start: #e9ecef;
+            --gradient-end: #f4f5f7;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            background-size: 400% 400%;
+            animation: gradientFlow 15s ease infinite;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        @keyframes gradientFlow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .registration-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .registration-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25);
+            border-color: var(--primary-color);
+        }
+
+        .register-btn {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 12px 20px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .register-btn:hover {
+            background-color: #218838;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-link {
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .login-link:hover {
+            color: #218838;
+        }
+
+        .alert {
+            border-radius: 8px;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
 </head>
 
 <body class="d-flex align-items-center justify-content-center vh-100">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <div class="card shadow-lg">
-                    <div class="card-body p-5">
-                        <h1>
-                            <!-- Flash Messages -->
-                            <% if (successMessage && successMessage.length> 0) { %>
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <%= successMessage[0] %>
+                <div class="registration-container p-5 shadow-lg">
+                    <!-- Flash Messages -->
+                    <% if (successMessage && successMessage.length> 0) { %>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <%= successMessage[0] %>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                        </div>
+                        <% } %>
+                            <% if (errorMessage && errorMessage.length> 0) { %>
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <%= errorMessage[0] %>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"
                                             aria-label="Close"></button>
                                 </div>
                                 <% } %>
-                                    <% if (errorMessage && errorMessage.length> 0) { %>
-                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                            <%= errorMessage[0] %>
-                                                <h1>Hello World</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                    aria-label="Close"></button>
+                                    <!-- End Flash Messages -->
+
+                                    <h2 class="text-center text-gray-800 mb-4">Owner Registration</h2>
+
+                                    <form action="/api/auth/owner/register" method="POST">
+                                        <div class="mb-3">
+                                            <label for="fullname" class="form-label">Full Name</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                                <input type="text" id="fullname" name="fullName"
+                                                    placeholder="Enter your full name" class="form-control"
+                                                    minlength="4" required>
+                                            </div>
                                         </div>
-                                        <% } %>
-                        </h1>
-                        <!-- End Flash Messages -->
-                        <h1 class="h2 text-center text-gray-800 mb-4">Owner Register</h1>
-                        <form action="/api/auth/owner/register" method="POST">
-                            <div class="mb-3">
-                                <label for="fullname" class="form-label">Full Name</label>
-                                <input type="text" id="fullname" name="fullName" placeholder="Enter your full name"
-                                    class="form-control" minlength="4" required>
-                            </div>
 
-                            <!-- Email -->
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" id="register-email" name="email"
-                                    placeholder="Enter your email (... Remember this email ...)" class="form-control"
-                                    required>
-                            </div>
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">Email</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                                <input type="email" id="register-email" name="email"
+                                                    placeholder="Enter your email" class="form-control" required>
+                                            </div>
+                                        </div>
 
-                            <!-- Password -->
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" id="register-password" name="password"
-                                    placeholder="Enter your password" class="form-control" minlength="6" required>
-                            </div>
+                                        <div class="mb-3">
+                                            <label for="password" class="form-label">Password</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                                <input type="password" id="register-password" name="password"
+                                                    placeholder="Enter your password" class="form-control" minlength="6"
+                                                    required>
+                                            </div>
+                                        </div>
 
-                            <!-- Shop Address -->
-                            <div class="mb-3">
-                                <label for="shopAddress" class="form-label">Shop Address</label>
-                                <textarea id="shopAddress" name="shopAddress" placeholder="Enter your shop address"
-                                    class="form-control" rows="3" required></textarea>
-                            </div>
+                                        <div class="mb-3">
+                                            <label for="shopAddress" class="form-label">Shop Address</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i
+                                                        class="fas fa-map-marker-alt"></i></span>
+                                                <textarea id="shopAddress" name="shopAddress"
+                                                    placeholder="Enter your shop address" class="form-control" rows="3"
+                                                    required></textarea>
+                                            </div>
+                                        </div>
 
-                            <!-- Contact -->
-                            <div class="mb-3">
-                                <label for="contact" class="form-label">Contact Number</label>
-                                <input type="text" id="contact" name="contact" placeholder="Enter your contact number"
-                                    class="form-control" pattern="[0-9]{10,15}"
-                                    title="Enter a valid phone number (10-15 digits)" required>
-                            </div>
+                                        <div class="mb-3">
+                                            <label for="contact" class="form-label">Contact Number</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                                <input type="text" id="contact" name="contact"
+                                                    placeholder="Enter your contact number" class="form-control"
+                                                    pattern="[0-9]{10,15}"
+                                                    title="Enter a valid phone number (10-15 digits)" required>
+                                            </div>
+                                        </div>
 
-                            <!-- Submit Button -->
-                            <button type="submit" class="btn btn-primary w-100">
-                                Register as Owner
-                            </button>
-                        </form>
+                                        <button type="submit" class="btn btn-success register-btn w-100">
+                                            <i class="fas fa-user-plus me-2"></i>Register as Owner
+                                        </button>
+                                    </form>
 
-                        <p class="text-center mt-3 text-muted">
-                            Already have an account?
-                            <a href="/auth/pages/owner/loginpage" class="text-success">Login Here</a>
-                        </p>
-                    </div>
+                                    <p class="text-center mt-3 text-muted">
+                                        Already have an account?
+                                        <a href="/auth/pages/owner/loginpage" class="text-success login-link">Login
+                                            Here</a>
+                                    </p>
                 </div>
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

@@ -4,77 +4,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Page</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Product Showcase</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/Logo.webp">
-
     <style>
-        .product-card {
+        body {
+            background: linear-gradient(135deg, #f4f5f7, #e9ecef);
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 20px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        .product-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        .product-showcase {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .product-showcase:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
         }
 
         .product-image {
-            width: 150px;
-            height: 150px;
+            width: 100%;
+            height: 350px;
             object-fit: cover;
-            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .product-showcase:hover .product-image {
+            transform: scale(1.1);
         }
 
         .product-details {
-            flex: 1;
+            padding: 30px;
         }
 
         .product-name {
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
         }
 
         .product-description {
-            font-size: 1rem;
-            color: #555;
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
         }
 
-        .btn-group {
-            margin-top: 15px;
+        .shop-now-btn {
+            background-color: #28a745;
+            border-color: #28a745;
+            padding: 12px 24px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .shop-now-btn:hover {
+            background-color: #218838;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #007bff;
+            margin-bottom: 15px;
         }
     </style>
 </head>
 
 <body>
-    <div class="container mt-5">
-        <div class="product-card">
+    <div class="container">
+        <div class="product-showcase">
             <!-- Product Image -->
             <img src="/path/to/your/image.jpg" alt="Product Image" class="product-image">
 
             <!-- Product Details -->
             <div class="product-details">
                 <div class="product-name">Awesome Product</div>
+                <div class="product-price">$99.99</div>
                 <div class="product-description">
-                    This is a brief description of the product. It highlights the key features and benefits of the item.
+                    This is a comprehensive description of the product. It provides detailed insights into the features,
+                    benefits, and unique selling points that make this product stand out from the competition.
                 </div>
-                <div class="btn-group">
-                    <button class="btn btn-success">Shop Now</button>
+                <div class="d-flex align-items-center gap-3">
+                    <button class="btn btn-success shop-now-btn">
+                        <i class="fas fa-shopping-cart me-2"></i>Shop Now
+                    </button>
+                    <button class="btn btn-outline-secondary">
+                        <i class="fas fa-heart me-2"></i>Add to Wishlist
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
