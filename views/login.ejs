@@ -118,43 +118,79 @@
                 opacity: 1;
             }
         }
+
+        .navbar {
+            background-color: var(--primary-color);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: white;
+        }
+
+        .footer {
+            background-color: #f8f9fa;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 14px;
+        }
     </style>
 </head>
 
-<body class="d-flex align-items-center justify-content-center vh-100">
-    <div class="login-container text-center p-5 shadow-lg">
-        <img src="/Logo.webp" alt="SnapShop Logo" class="brand-logo">
+<body class="d-flex flex-column vh-100">
 
-        <h2 class="mb-2">Welcome to <span class="brand-highlight">SnapShop</span></h2>
-        <p class="text-muted mb-4">Your one-stop platform for all your shopping needs</p>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <img src="/Logo.webp" alt="" height="100px" width="100px" class="rounded-circle">
+            <a class="navbar-brand" class="h1">SnapShop</a>
+        </div>
+    </nav>
 
-        <!-- Flash Messages -->
-        <% if (successMessage && successMessage.length> 0) { %>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <%= successMessage[0] %>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            <% } %>
-                <% if (errorMessage && errorMessage.length> 0) { %>
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <%= errorMessage[0] %>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    <% } %>
-                        <!-- End Flash Messages -->
+    <!-- Main Content -->
+    <div class="flex-grow-1 d-flex align-items-center justify-content-center">
+        <div class="login-container text-center p-5 shadow-lg">
+            <img src="/Logo.webp" alt="SnapShop Logo" class="brand-logo">
 
-                        <h3 class="mb-4">Login Options</h3>
-                        <div class="d-grid gap-3">
-                            <a href="/auth/pages/users/loginpage"
-                                class="btn btn-primary login-btn customer-btn btn-lg w-100">
-                                <i class="fas fa-user"></i>Login as Customer
-                            </a>
-                            <a href="/auth/pages/owner/loginpage"
-                                class="btn btn-success login-btn owner-btn btn-lg w-100">
-                                <i class="fas fa-store"></i>Login as Shop Owner
-                            </a>
+            <h2 class="mb-2">Welcome to <span class="brand-highlight">SnapShop</span></h2>
+            <p class="text-muted mb-4">Your one-stop platform for all your shopping needs</p>
+
+            <!-- Flash Messages -->
+            <% if (successMessage && successMessage.length> 0) { %>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <%= successMessage[0] %>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <% } %>
+                    <% if (errorMessage && errorMessage.length> 0) { %>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <%= errorMessage[0] %>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
                         </div>
+                        <% } %>
+                            <!-- End Flash Messages -->
+
+                            <h3 class="mb-4">Login Options</h3>
+                            <div class="d-grid gap-3">
+                                <a href="/auth/pages/users/loginpage"
+                                    class="btn btn-primary login-btn customer-btn btn-lg w-100">
+                                    <i class="fas fa-user"></i>Login as Customer
+                                </a>
+                                <a href="/auth/pages/owner/loginpage"
+                                    class="btn btn-success login-btn owner-btn btn-lg w-100">
+                                    <i class="fas fa-store"></i>Login as Shop Owner
+                                </a>
+                            </div>
+        </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 SnapShop. All rights reserved.</p>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
