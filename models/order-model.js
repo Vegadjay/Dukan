@@ -3,12 +3,7 @@ const mongoose = require('mongoose');
 const orderSchema = new mongoose.Schema({
     productId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',  // Assuming you have a Product model
-        required: true,
-    },
-    customerId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',  // Assuming you have a User model for customers
+        ref: 'Product',
         required: true,
     },
     address: {
@@ -17,7 +12,7 @@ const orderSchema = new mongoose.Schema({
     },
     paymentMethod: {
         type: String,
-        enum: ['COD', 'Credit Card', 'Debit Card', 'UPI'],  // Modify as needed
+        enum: ['cod', 'Credit Card', 'Debit Card', 'UPI'],
         required: true,
     },
     status: {
@@ -37,9 +32,6 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    image: {
-        type: Buffer,
-    }
 });
 
 const Order = mongoose.model('Order', orderSchema);

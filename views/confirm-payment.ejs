@@ -136,7 +136,7 @@
         <!-- Address Input Section -->
         <div class="address-section">
             <h4>Delivery Address</h4>
-            <form action="/products/submit-order" method="POST">
+            <form action="/products/submit-order/<%= productID %>" method="POST">
                 <div class="mb-3">
                     <label for="address" class="form-label">Enter your Address</label>
                     <input type="text" class="form-control" id="address" name="address" placeholder="Enter your address"
@@ -154,7 +154,7 @@
                             available after some time online payment is available</span></label><br>
                 </div>
 
-                <a href="/products/order-confirmation/:orderId">
+                <a href="/products/order-confirmation/">
                     <button type="submit" class="buy-btn">Submit Order</button>
                 </a>
             </form>
@@ -164,7 +164,10 @@
         <div class="payment-description">
             <h4>Payment Details</h4>
             <p>We accept a variety of payment methods including credit cards, debit cards, and UPI payments. Secure
-                transactions are guaranteed for your safety.</p>
+                transactions are guaranteed for your safety. <span class="fw-bolder">
+                    *(For now COD is available but letter or that all online
+                    payments are available)
+                </span></p>
             <p>After completing the purchase, you will receive an email confirmation along with your receipt and
                 shipping details.</p>
             <p><strong>Note:</strong> For any assistance regarding payment or shipping, feel free to contact our support

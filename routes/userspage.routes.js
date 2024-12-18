@@ -9,6 +9,7 @@ router.get("/shopdetails", authUser, async (req, res) => {
         const successMessage = req.flash("success");
         const errorMessage = req.flash("error");
         const products = await productModel.find();
+        const productId = products.productId;
         res.render("user-show-product", {
             products,
             successMessage,

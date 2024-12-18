@@ -76,7 +76,6 @@ router.get('/editproduct/:id', async (req, res) => {
 router.post('/edit/:id', async (req, res) => {
     try {
         // The method is overridden to PUT
-        console.log(req.method)
         if (req.body._method === 'PUT') {
             const productId = req.params.id;
             const { name, price, quantity, description, category } = req.body;
@@ -99,10 +98,7 @@ router.post('/edit/:id', async (req, res) => {
 
 // api that use for show confirm delete
 router.get("/deleteproduct/:id", (req, res) => {
-
     const productId = req.params.id;
-
-    console.log(productId)
     res.render('confirm-delete', { productId })
 })
 
@@ -121,7 +117,6 @@ router.post('/deleteproduct/:productId', async (req, res) => {
                 return res.status(404).json({ message: 'Product not found.' });
             }
 
-            console.log('Deleted product:', product);
 
             res.status(200).redirect('/owners/products');
         }
@@ -138,25 +133,21 @@ router.post('/deleteproduct/:productId', async (req, res) => {
 router.get("/product/:id", (req, res) => {
     const productId = req.params.id;
     const product = productModel.findOne({ productId })
-
-    console.log("product id: ", productId)
-
     res.render("product-details")
 })
 
-
+// This route is for last step for payment
 router.get("/payment/:id", async (req, res) => {
     try {
         const productId = req.params.id;
         const product = await productModel.findById(productId);
-
         const Image = product.image ? `data:image/jpeg;base64,${product.image.toString('base64')}` : null;
-
         res.render("confirm-payment", {
             productName: product.name,
             price: product.price,
             description: product.description,
-            image: Image
+            image: Image,
+            productID: productId
         });
     } catch (err) {
         console.error(err);
@@ -184,21 +175,21 @@ router.get("/productdetails/:id", async (req, res) => {
 
 
 // todo: Start From here this code is not working what is reason check that and write from here.
-router.post("/submit-order", async (req, res) => {
+router.post("/submit-order/:id", async (req, res) => {
     try {
         const { address, paymentMethod } = req.body;
         const productId = req.params.id;
-        const newOrder = new orderModel({
+        const product = await productModel.findById(productId);
+        await orderModel.create({
             productId,
             address,
             paymentMethod,
             status: 'Confirmed',
+            productName: product.name,
+            totalAmount: product.price,
             date: new Date()
-        });
-
-        await newOrder.save();
-
-        res.redirect(`/order-confirmation/${newOrder._id}`);
+        })
+        res.redirect("/products/order-confirmation");
     } catch (err) {
         console.error(err);
         res.status(500).send("Server error");
@@ -206,22 +197,10 @@ router.post("/submit-order", async (req, res) => {
 });
 
 
-router.get("/order-confirmation/:orderId", async (req, res) => {
+router.get("/order-confirmation", async (req, res) => {
     try {
-        const orderId = req.params.orderId;
-        const order = await orderModel.findById(orderId);
 
-        if (!order) {
-            return res.status(404).send("Order not found");
-        }
-
-        res.render("order-confirmed", {
-            orderId: order._id,
-            productName: order.productName,
-            address: order.address,
-            paymentMethod: order.paymentMethod,
-            status: order.status
-        });
+        res.render("order-confirmed");
     } catch (err) {
         console.error(err);
         res.status(500).send("Server error");

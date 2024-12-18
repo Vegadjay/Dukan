@@ -4,110 +4,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Confirmed</title>
+    <title>Payment Confirmation</title>
     <link rel="icon" type="image/x-icon" href="/Logo.webp">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #f9f9f9;
             color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
 
-        .navbar {
-            border-bottom: 1px solid #ddd;
+        .confirmation-container {
+            text-align: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
         }
 
-        .navbar .nav-link {
-            color: #333;
-        }
-
-        .navbar .nav-link:hover {
-            color: #007bff;
-        }
-
-        .order-confirmation-container {
-            margin-top: 50px;
-            padding: 30px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .order-confirmation-container h2 {
+        .order-success {
             color: #28a745;
+            /* Bootstrap green color */
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: bold;
         }
 
-        .order-confirmation-container h4 {
-            color: #333;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
-        .order-details {
+        .spinner-border {
             margin-top: 20px;
         }
 
-        .order-details p {
-            font-size: 1.2rem;
-            color: #555;
-        }
-
-        .back-btn {
-            background-color: #007bff;
-            color: white;
-            font-size: 1.2rem;
-            padding: 10px 20px;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .back-btn:hover {
-            background-color: #0056b3;
+        .btn-home {
+            margin-top: 20px;
         }
     </style>
 </head>
 
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg bg-white">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="/Logo.webp" alt="Logo" height="40">
-            </a>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <a href="/api/auth/logout" class="logout-btn">Logout</a>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container order-confirmation-container">
-        <h2>Congratulations! Your Order is Confirmed.</h2>
-        <p>Thank you for your purchase. Your order has been successfully placed and is being processed.</p>
-
-        <div class="order-details">
-            <h4>Order Details:</h4>
-            <p><strong>Order ID:</strong>
-                <%= orderId %>
-            </p>
-            <p><strong>Product:</strong>
-                <%= productName %>
-            </p>
-            <p><strong>Shipping Address:</strong>
-                <%= address %>
-            </p>
-            <p><strong>Payment Method:</strong>
-                <%= paymentMethod %>
-            </p>
-            <p><strong>Status:</strong>
-                <%= status %>
-            </p>
-        </div>
-
-        <a href="/home" class="back-btn">Back to Home</a>
+    <div class="confirmation-container">
+        <h1>Thank You for Your Order!</h1>
+        <p class="order-success">Your order has been placed successfully!</p>
+        <p>Your payment is being processed. You will be redirected shortly.</p>
+        <a href="/users/shopdetails">
+            <button class="btn btn-primary btn-home">Go to Home</button>
+        </a>
     </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
