@@ -5,92 +5,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Products</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/Logo.webp">
-
     <style>
         body {
-            padding-top: 56px;
             background-color: #f4f6f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 80px;
         }
 
         .navbar-brand img {
-            height: 30px;
+            height: 40px;
+            border-radius: 50%;
         }
 
         .card {
-            width: 100%;
-            max-width: 320px;
-            /* Reduced width */
-            height: 450px;
-            /* Adjusted height */
-            display: flex;
-            flex-direction: column;
-            margin: 15px;
-            /* Added margin between cards */
-            border-radius: 10px;
-            /* Rounded corners */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            /* Subtle shadow */
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            /* Lift effect */
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-            /* Stronger shadow on hover */
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
 
         .card-img-top {
-            width: 100%;
-            height: 200px;
+            height: 250px;
             object-fit: cover;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-            /* Rounded corners for image */
         }
 
         .card-body {
-            padding: 20px;
-            flex-grow: 1;
-            /* Ensures that the body takes up remaining space */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-        }
-
-        .card-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .card-text {
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 10px;
-        }
-
-        .card-footer {
-            padding: 10px;
-            background: #f8f9fa;
-            border-top: 1px solid #e0e0e0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .card-footer a {
-            text-decoration: none;
-            font-size: 0.9rem;
-            color: #007bff;
-            transition: color 0.3s ease;
-        }
-
-        .card-footer a:hover {
-            color: #0056b3;
         }
 
         .empty-state {
@@ -98,49 +48,46 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: calc(100vh - 200px);
+            min-height: calc(100vh - 200px);
             text-align: center;
         }
 
-        .empty-state img {
-            width: 300px;
-            height: auto;
+        .nav-welcome {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
         <div class="container-fluid">
             <a class="navbar-brand d-flex align-items-center" href="/">
-                <img src="/Logo.webp" alt="Logo" class="me-2 rounded-circle">
+                <img src="/Logo.webp" alt="Logo" class="me-2">
             </a>
-
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item me-3">
-                        <span class="text-muted me-2">Welcome,</span>
-                        <h5 class="text-primary fw-bold d-inline m-0">
+                    <li class="nav-item nav-welcome me-3">
+                        <span class="text-muted">Welcome,</span>
+                        <h5 class="text-primary fw-bold m-0">
                             <%= owner %>
                         </h5>
                     </li>
-
                     <% if (locals.shop) { %>
                         <li class="nav-item me-3">
-                            <span class="text-muted me-2">Shop Name:</span>
+                            <span class="text-muted">Shop Name:</span>
                             <h5 class="text-success fw-bold d-inline m-0">
                                 <%= shop %>
                             </h5>
                         </li>
                         <% } %>
-                            <li class="nav-item">
-                                <a class="nav-link btn btn-outline-success rounded-pill px-3 mx-2"
-                                    href="/products/createproduct">
+                            <li class="nav-item me-3">
+                                <a class="btn btn-outline-success rounded-pill px-3" href="/products/createproduct">
                                     <i class="bi bi-bag-plus me-1"></i>Add Product
                                 </a>
                             </li>
@@ -165,31 +112,32 @@
                                 <img src="<%= product.image ? 'data:image/jpeg;base64,' + product.image : 'https://via.placeholder.com/300' %>"
                                     class="card-img-top" alt="<%= product.name %>"
                                     onerror="this.src='https://via.placeholder.com/300'">
-                                <!-- todo: Add here default image so that if product image is not fetch from backedn than that photo is shown -->
-
                                 <div class="card-body">
-                                    <h5 class="card-title">
-                                        <%= product.name %>
-                                    </h5>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <span class="h6 text-primary mb-0"><i class="fas fa-indian-rupee-sign"></i>
-                                            <%= product.price.toFixed(2) %>
-                                        </span>
-                                        <span class="badge bg-secondary">Qty: <%= product.quantity %></span>
+                                    <div>
+                                        <h5 class="card-title mb-3">
+                                            <%= product.name %>
+                                        </h5>
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <span class="h6 text-primary mb-0">
+                                                <i class="fas fa-indian-rupee-sign"></i>
+                                                <%= product.price.toFixed(2) %>
+                                            </span>
+                                            <span class="badge bg-secondary">Qty: <%= product.quantity %></span>
+                                        </div>
+                                        <p class="card-text text-muted small">
+                                            <%= product.description %>
+                                        </p>
                                     </div>
-                                    <p class="card-text text-muted mt-2 small">
-                                        <%= product.description %>
-                                    </p>
-                                </div>
-                                <div class="card-footer bg-transparent border-0 d-flex justify-content-between">
-                                    <a href="/products/editproduct/<%= product._id %>"
-                                        class="btn btn-sm btn-outline-primary">
-                                        <i class="bi bi-pencil me-1"></i>Edit
-                                    </a>
-                                    <a href="/products/deleteproduct/<%= product._id %>"
-                                        class="btn btn-sm btn-outline-danger">
-                                        <i class="bi bi-trash me-1"></i>Delete
-                                    </a>
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <a href="/products/editproduct/<%= product._id %>"
+                                            class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-pencil me-1"></i>Edit
+                                        </a>
+                                        <a href="/products/deleteproduct/<%= product._id %>"
+                                            class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash me-1"></i>Delete
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -197,20 +145,17 @@
                 </div>
                 <% } else { %>
                     <div class="empty-state">
-                        <!-- todo: Add here that one small png like not exsist or other -->
-                        <h2 class="text-muted">No Products Found</h2>
-                        <p class="text-muted">Add Your First Product.</p>
-                        <a href="/owners/addproduct" class="btn btn-primary mt-3">
-                            <i class="bi bi-plus-circle me-2"></i>Add Your First Product
+                        <h2 class="text-muted mb-3">No Products Found</h2>
+                        <p class="text-muted mb-4">Start your journey by adding your first product!</p>
+                        <a href="/owners/addproduct" class="btn btn-primary btn-lg">
+                            <i class="bi bi-plus-circle me-2"></i>Add First Product
                         </a>
                     </div>
                     <% } %>
         </main>
     </div>
 
-    <!-- Add Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

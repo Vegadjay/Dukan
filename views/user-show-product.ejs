@@ -4,158 +4,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Page</title>
+    <title>Product Showcase</title>
     <link rel="icon" type="image/x-icon" href="/Logo.webp">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css"
         rel="stylesheet">
-
     <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        }
+
         body {
-            background-color: #f9f9f9;
-            color: #333;
+            background-color: var(--background-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
         }
 
         .navbar {
-            border-bottom: 1px solid #ddd;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: white !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
         }
 
-        .navbar .nav-link {
-            color: #333;
+        .navbar-brand img {
+            border-radius: 50%;
+            transition: transform 0.3s ease;
         }
 
-        .navbar .nav-link:hover {
-            color: #007bff;
-        }
-
-        .logout-btn {
-            margin-left: auto;
-            color: #dc3545;
-            font-weight: bold;
-            border: 1px solid #dc3545;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-
-        .logout-btn:hover {
-            background-color: #dc3545;
-            color: #fff;
+        .navbar-brand img:hover {
+            transform: rotate(360deg);
         }
 
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            /* Responsive grid for better layout */
-            gap: 20px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            padding: 20px 0;
         }
 
         .card {
             border: none;
-            border-radius: 10px;
+            border-radius: 15px;
             overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-            background-color: #ffffff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            box-shadow: var(--card-shadow);
+            transform: translateY(0);
+            background-color: white;
         }
 
         .card:hover {
-            transform: scale(1.03);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
 
         .card-img-top {
-            width: 100%;
-            height: 200px;
+            height: 250px;
             object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .card-img-top {
+            transform: scale(1.1);
         }
 
         .card-body {
-            padding: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .card-title {
-            font-size: 1.25rem;
-            font-weight: bold;
-            color: #333;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
         }
 
         .card-text {
-            color: #555;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            font-weight: 600;
         }
 
         .btn-group {
+            margin-top: 15px;
             display: flex;
             gap: 10px;
-            margin-top: 10px;
+        }
+
+        .btn-shop {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .btn-shop:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .no-products-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+            text-align: center;
+            padding: 50px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
         }
 
         .no-products-message {
-            font-size: 1.25rem;
-            text-align: center;
-            color: #777;
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .logout-btn {
+            background-color: #dc3545;
+            color: white;
+            border-radius: 50px;
+            padding: 8px 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #c82333;
+            transform: scale(1.05);
         }
     </style>
 </head>
 
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg bg-white">
-        <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container-fluid px-4">
             <a class="navbar-brand" href="#">
-                <img src="/Logo.webp" alt="Logo" height="40">
+                <img src="/Logo.webp" alt="Logo" height="45" class="shadow-sm">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <a href="/api/auth/logout" class="logout-btn">Logout</a>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <a href="/api/auth/logout" class="logout-btn">
+                    <i class="bi bi-box-arrow-right me-2"></i>Logout
+                </a>
             </div>
         </div>
     </nav>
 
-    <div class="container mt-5">
-        <div class="main-content">
-            <!-- Main Content Area -->
-            <div class="content-area">
-                <div class="product-grid">
-                    <% if (products.length> 0) { %>
-                        <% products.forEach(function(product) { %>
-                            <div class="card">
-                                <img src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
-                                    alt="<%= product.name %>" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <%= product.name %>
-                                    </h5>
-                                    <p class="card-text">₹ <%= product.price %>
+    <div class="container mt-4">
+        <div class="product-grid">
+            <% if (products.length> 0) { %>
+                <% products.forEach(function(product) { %>
+                    <div class="card h-100">
+                        <img src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
+                            alt="<%= product.name %>" class="card-img-top">
+                        <div class="card-body">
+                            <div>
+                                <h5 class="card-title">
+                                    <%= product.name %>
+                                </h5>
+                                <p class="card-text">₹ <%= product.price.toLocaleString() %>
+                                </p>
+                            </div>
+                            <div class="btn-group">
+                                <a href="/products/payment/<%= product._id %>" class="btn btn-shop btn-sm">
+                                    <i class="bi bi-basket3-fill me-2"></i>Shop Now
+                                </a>
+                                <a href="/products/productdetails/<%= product._id %>"
+                                    class="btn btn-outline-secondary btn-sm">
+                                    <i class="bi bi-info-circle-fill me-2"></i>Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+                        <% } else { %>
+                            <div class="col-12">
+                                <div class="no-products-container">
+                                    <h2 class="no-products-message">
+                                        <i class="bi bi-box-seam me-3"></i>No Products Available
+                                    </h2>
+                                    <p class="text-muted">Looks like there are no products in the inventory right now.
                                     </p>
-                                    <div class="btn-group">
-                                        <a href="/products/payment/<%= product._id %>" class="btn btn-primary btn-sm">
-                                            <i class="bi bi-basket3-fill"></i> Shop Now
-                                        </a>
-                                        <a href="/products/productdetails/<%= product._id %>"
-                                            class="btn btn-outline-secondary btn-sm">
-                                            <i class="bi bi-info-circle-fill"></i> Know More
-                                        </a>
-                                    </div>
                                 </div>
                             </div>
-                            <% }) %>
-                                <% } else { %>
-                                    <div class="col-12">
-                                        <h2 class="no-products-message">No products available in the list</h2>
-                                    </div>
-                                    <% } %>
-                </div>
-            </div>
+                            <% } %>
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

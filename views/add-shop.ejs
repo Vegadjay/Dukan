@@ -4,63 +4,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop Registration</title>
+    <title>Shop Registration | Shop Management</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/webp" href="/Logo.webp">
+
+    <!-- External CSS Libraries -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="/Logo.webp">
+
+    <!-- Optional: Custom CSS -->
+    <link href="/styles/custom.css" rel="stylesheet">
 </head>
 
-<body class="d-flex align-items-center justify-content-center vh-100 bg-light">
+<body class="bg-light d-flex align-items-center justify-content-center vh-100">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card shadow-lg">
+            <div class="col-md-6 col-lg-5">
+                <div class="card shadow-lg border-0">
                     <div class="card-body p-5">
                         <h1 class="h4 text-center text-primary mb-4">Register Your Shop</h1>
-                        <form action="/shop/addshop" method="POST">
+
+                        <form action="/shop/addshop" method="POST" novalidate>
+                            <!-- Owner Name -->
                             <div class="mb-3">
                                 <label for="ownerName" class="form-label">Owner Name</label>
                                 <input type="text" id="ownerName" name="ownerName" class="form-control"
-                                    placeholder="Enter Owner Name" required>
+                                    placeholder="Enter full name" required maxlength="100">
                             </div>
 
+                            <!-- Owner Mobile Number -->
                             <div class="mb-3">
                                 <label for="ownerMobile" class="form-label">Owner Mobile Number</label>
-                                <input type="text" id="ownerMobile" name="ownerNo" class="form-control"
-                                    placeholder="Enter Owner Mobile Number" pattern="[0-9]{10,15}"
-                                    title="Enter a valid mobile number" required>
+                                <input type="tel" id="ownerMobile" name="ownerNo" class="form-control"
+                                    placeholder="Enter 10-digit mobile number" pattern="[0-9]{10}"
+                                    title="Please enter a 10-digit mobile number" required>
                             </div>
 
+                            <!-- Owner Email -->
                             <div class="mb-3">
                                 <label for="ownerEmail" class="form-label">Owner Email Address</label>
                                 <input type="email" id="ownerEmail" name="ownerEmail" class="form-control"
-                                    placeholder="Enter Email Address (... add that same email that use while register ...)"
+                                    placeholder="Enter your registered email"
                                     pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Enter a valid email address"
                                     required>
                             </div>
 
+                            <!-- Shop Name -->
                             <div class="mb-3">
                                 <label for="shopName" class="form-label">Shop Name</label>
                                 <input type="text" id="shopName" name="shopName" class="form-control"
-                                    placeholder="Enter Shop Name" required>
+                                    placeholder="Enter your shop name" required maxlength="100">
                             </div>
 
+                            <!-- Shop Address -->
                             <div class="mb-3">
                                 <label for="shopAddress" class="form-label">Shop Address</label>
                                 <input type="text" id="shopAddress" name="shopAddress" class="form-control"
-                                    placeholder="Enter Shop Address" required>
+                                    placeholder="Enter complete shop address" required maxlength="200">
                             </div>
 
-                            <button type="submit" class="btn btn-primary w-100">Register Shop</button>
+                            <!-- Submit Button -->
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">Register Shop</button>
+                            </div>
                         </form>
-                        <p class="text-center mt-3 text-muted">
-                            Go back to <a href="/" class="text-primary">Dashboard</a>
+
+                        <!-- Navigation Link -->
+                        <p class="text-center mt-3 mb-0 text-muted">
+                            Already have an account? <a href="/login" class="text-primary">Login</a>
+                        </p>
+                        <p class="text-center text-muted">
+                            <a href="/" class="text-muted">Back to Dashboard</a>
                         </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- External JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Optional: Custom JavaScript -->
+    <script src="/scripts/form-validation.js"></script>
 </body>
 
 </html>

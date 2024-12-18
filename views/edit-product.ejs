@@ -4,51 +4,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Product</title>
-    <link rel="icon" type="image/x-icon" href="/Logo.webp">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Edit Product | Shop Management</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/webp" href="/Logo.webp">
+
+    <!-- External CSS Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --background-color: #f4f6f9;
+        }
+
+        body {
+            background-color: var(--background-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .edit-product-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .edit-product-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .form-control {
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .page-title {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container mt-5">
-        <h2>Edit Product</h2>
-        <form action="/products/edit/<%= product.id %>" method="POST">
-            <input type="hidden" name="_method" value="PUT">
-            <input type="hidden" id="productId" name="id" value="<%= product.id %>">
+    <div class="container">
+        <div class="edit-product-container">
+            <h2 class="page-title mb-4">Edit Product</h2>
 
-            <div class="mb-3">
-                <label for="name" class="form-label">Product Name</label>
-                <input type="text" class="form-control" id="name" name="name" value="<%= product.name %>" required>
-            </div>
+            <form action="/products/edit/<%= product.id %>" method="POST" id="editProductForm" novalidate>
+                <input type="hidden" name="_method" value="PUT">
+                <input type="hidden" id="productId" name="id" value="<%= product.id %>">
 
-            <div class="mb-3">
-                <label for="price" class="form-label">Price</label>
-                <input type="number" class="form-control" id="price" name="price" step="0.01" min="0"
-                    value="<%= product.price %>" required>
-            </div>
+                <div class="mb-3">
+                    <label for="name" class="form-label">
+                        <i class="fas fa-tag me-2"></i>Product Name
+                    </label>
+                    <input type="text" class="form-control" id="name" name="name" value="<%= product.name %>" required
+                        minlength="2" maxlength="100">
+                    <div class="invalid-feedback">
+                        Please enter a valid product name (2-100 characters).
+                    </div>
+                </div>
 
-            <div class="mb-3">
-                <label for="quantity" class="form-label">Quantity</label>
-                <input type="number" class="form-control" id="quantity" name="quantity" min="0"
-                    value="<%= product.quantity %>" required>
-            </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label">
+                        <i class="fas fa-rupee-sign me-2"></i>Price
+                    </label>
+                    <input type="number" class="form-control" id="price" name="price" step="0.01" min="0"
+                        value="<%= product.price %>" required>
+                    <div class="invalid-feedback">
+                        Please enter a valid price (minimum 0).
+                    </div>
+                </div>
 
-            <div class="mb-3">
-                <label for="category" class="form-label">Category</label>
-                <input type="text" class="form-control" id="category" name="category" value="<%= product.category %>">
-            </div>
+                <div class="mb-3">
+                    <label for="quantity" class="form-label">
+                        <i class="fas fa-box me-2"></i>Quantity
+                    </label>
+                    <input type="number" class="form-control" id="quantity" name="quantity" min="0"
+                        value="<%= product.quantity %>" required>
+                    <div class="invalid-feedback">
+                        Please enter a valid quantity (minimum 0).
+                    </div>
+                </div>
 
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="3"
-                    required><%= product.description %></textarea>
-            </div>
+                <div class="mb-3">
+                    <label for="category" class="form-label">
+                        <i class="fas fa-th-list me-2"></i>Category
+                    </label>
+                    <input type="text" class="form-control" id="category" name="category"
+                        value="<%= product.category %>" maxlength="50">
+                    <div class="invalid-feedback">
+                        Category must be 50 characters or less.
+                    </div>
+                </div>
 
-            <button type="submit" class="btn btn-primary">Save Changes</button>
-        </form>
+                <div class="mb-3">
+                    <label for="description" class="form-label">
+                        <i class="fas fa-file-alt me-2"></i>Description
+                    </label>
+                    <textarea class="form-control" id="description" name="description" rows="3" required minlength="10"
+                        maxlength="500"><%= product.description %></textarea>
+                    <div class="invalid-feedback">
+                        Please enter a description (10-500 characters).
+                    </div>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Form Validation Script -->
+    <script>
+        (function () {
+            'use strict';
+            const form = document.getElementById('editProductForm');
+
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+
+                form.classList.add('was-validated');
+            }, false);
+
+            // Custom validation for each input
+            const inputs = form.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('input', function () {
+                    if (input.validity.valid) {
+                        input.classList.remove('is-invalid');
+                        input.classList.add('is-valid');
+                    } else {
+                        input.classList.remove('is-valid');
+                        input.classList.add('is-invalid');
+                    }
+                });
+            });
+        })();
+    </script>
 </body>
 
 </html>
