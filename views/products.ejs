@@ -4,140 +4,276 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Details</title>
+    <title>
+        <%= product.name %> | Product Details
+    </title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .main-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin: 30px auto;
+            padding: 30px;
+        }
+
+        .product-gallery {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            background: white;
+            padding: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+        }
+
         .product-image {
-            max-width: 100%;
+            width: 100%;
             height: auto;
-            border: 2px solid #ddd;
-            border-radius: 12px;
-            padding: 10px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 10px;
+            transition: all 0.3s ease;
         }
 
         .product-image:hover {
-            transform: scale(1.2);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            transform: scale(1.05);
         }
 
-        .product-details {
+        .wishlist-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .wishlist-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-info {
             padding: 20px;
         }
 
-        .product-category {
-            font-size: 1rem;
-            color: #6c757d;
+        .category-badge {
+            background: #e9ecef;
+            color: #495057;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .product-title {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: #212529;
         }
 
         .product-price {
-            font-size: 1.8rem;
+            font-size: 2.5rem;
             font-weight: bold;
             color: #007bff;
+            margin-bottom: 20px;
         }
 
-        .product-quantity {
-            font-size: 1rem;
-            font-weight: bold;
-            color: #28a745;
+        .stock-badge {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            display: inline-block;
         }
 
-        .additional-content {
-            margin-top: 50px;
-            padding: 30px;
-            background-color: #f1f1f1;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .additional-content h3 {
-            font-size: 2rem;
-            color: #343a40;
-        }
-
-        .additional-content p {
-            font-size: 1.1rem;
-            color: #555;
-        }
-
-        .feature-box {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #e9ecef;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .feature-box h4 {
-            font-size: 1.4rem;
-            color: #495057;
-        }
-
-        .feature-box p {
-            font-size: 1rem;
+        .product-description {
             color: #6c757d;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 20px 0;
+        }
+
+        .shop-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .action-buttons {
+            margin: 25px 0;
+        }
+
+        .btn-buy-now {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .features-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 40px 20px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            height: 100%;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+
+        .ratings {
+            color: #ffc107;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 
 <body>
-    <div class="container mt-5">
+    <div class="container main-container">
+        <!-- Product Details Section -->
         <div class="row">
-            <div class="col-md-6">
-                <img src="<%= Image %>" alt="<%= product.name %>" class="product-image h-100 w-75">
+            <!-- Product Image -->
+            <div class="col-lg-6">
+                <div class="product-gallery">
+                    <img src="<%= Image %>" alt="<%= product.name %>" class="product-image">
+                    <button class="wishlist-btn">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
             </div>
-            <div class="col-md-6 product-details">
-                <h2>
-                    <%= product.name %>
-                </h2>
-                <p class="product-category">Category: <%= product.category %>
-                </p>
-                <p class="product-price">
-                    <i class="fas fa-indian-rupee-sign"></i>
-                    <%= product.price %>
-                </p>
-                <p class="product-quantity">Available Quantity: <%= product.quantity %>
-                </p>
-                <p>Description:</p>
-                <p>
-                    <%= product.description %>
-                </p>
-                <p>Shop: <%= product.shop %>
-                </p>
-                <a href="/products/payment/<%= productId %>">
-                    <button class="btn btn-success btn-lg">Buy Now</button>
-                </a>
+
+            <!-- Product Info -->
+            <div class="col-lg-6">
+                <div class="product-info">
+                    <span class="category-badge">
+                        <%= product.category %>
+                    </span>
+
+                    <h1 class="product-title">
+                        <%= product.name %>
+                    </h1>
+
+                    <div class="ratings">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span class="text-muted ml-2">(124 reviews)</span>
+                    </div>
+
+                    <div class="product-price">
+                        <i class="fas fa-indian-rupee-sign"></i>
+                        <%= product.price %>
+                    </div>
+
+                    <span class="stock-badge">
+                        <i class="fas fa-check-circle mr-1"></i>
+                        <%= product.quantity %> units available
+                    </span>
+
+                    <p class="product-description">
+                        <%= product.description %>
+                    </p>
+
+                    <div class="shop-info">
+                        <i class="fas fa-store mr-2"></i>
+                        Sold by: <%= product.shop %>
+                    </div>
+
+                    <div class="action-buttons">
+                        <div class="row">
+                            <div class="col-6">
+                                <a href="/products/payment/<%= productId %>"
+                                    class="btn btn-success btn-lg btn-block btn-buy-now">
+                                    Buy Now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-outline-secondary btn-block">
+                        <i class="fas fa-share-alt mr-2"></i>
+                        Share Product
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="additional-content">
-            <h3>More About Our Products</h3>
-            <p>Explore a wide range of high-quality products tailored to meet your needs. From electronics to fashion,
-                our store has it all!</p>
-            <p>Don't miss out on our exclusive offers and discounts. Shop now and enjoy the best shopping experience!
-            </p>
-        </div>
-        <div class="row mt-4">
-            <div class="col-md-4 feature-box">
-                <h4>Free Shipping</h4>
-                <p>Enjoy free shipping on all orders above $50. Shop now and save more!</p>
-            </div>
-            <div class="col-md-4 feature-box">
-                <h4>Secure Payment</h4>
-                <p>Your transactions are safe with our top-notch security measures.</p>
-            </div>
-            <div class="col-md-4 feature-box">
-                <h4>24/7 Support</h4>
-                <p>Our customer support team is available around the clock to assist you.</p>
+
+        <!-- Features Section -->
+        <div class="features-section">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <i class="fas fa-truck feature-icon"></i>
+                        <h4>Free Shipping</h4>
+                        <p class="text-muted mb-0">Free delivery on orders above ₹499</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt feature-icon"></i>
+                        <h4>Secure Payments</h4>
+                        <p class="text-muted mb-0">Protected by advanced encryption</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <i class="fas fa-headset feature-icon"></i>
+                        <h4>24/7 Support</h4>
+                        <p class="text-muted mb-0">Round-the-clock customer assistance</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
+    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        // Wishlist button toggle
+        document.querySelector('.wishlist-btn').addEventListener('click', function () {
+            const icon = this.querySelector('i');
+            icon.classList.toggle('far');
+            icon.classList.toggle('fas');
+            icon.classList.toggle('text-danger');
+        });
+    </script>
 </body>
 
 </html>

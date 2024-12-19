@@ -53,17 +53,9 @@
             color: white;
         }
 
-        .product-details-container {
-            display: flex;
-            gap: 20px;
-            align-items: start;
-            margin-top: 30px;
-        }
-
         .product-info {
-            flex: 1;
             background-color: white;
-            padding: 20px;
+            padding: 25px;
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
@@ -72,6 +64,36 @@
             max-width: 100%;
             height: auto;
             border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .price-breakdown {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 5px 0;
+        }
+
+        .total-price {
+            border-top: 2px solid #dee2e6;
+            margin-top: 10px;
+            padding-top: 10px;
+            font-weight: bold;
+        }
+
+        .delivery-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            margin-top: 10px;
         }
 
         .address-section,
@@ -100,6 +122,14 @@
             color: #6c757d;
             font-size: 0.9em;
         }
+
+        .delivery-info {
+            background-color: #e8f4ff;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 
@@ -123,15 +153,48 @@
 
     <!-- Main Content -->
     <div class="container mt-5">
-        <!-- Product Details -->
         <div class="row">
+            <!-- Product Details -->
             <div class="col-md-8">
                 <div class="product-info">
                     <h2 class="mb-3">
                         <%= productName %>
                     </h2>
-                    <h4 class="text-success mb-3">Price: ₹ <%= price %>
-                    </h4>
+
+                    <div class="price-breakdown">
+                        <div class="price-item">
+                            <span>Product Price:</span>
+                            <span>₹ <%= originalPrice %></span>
+                        </div>
+
+                        <div class="price-item">
+                            <span>Delivery Charge:</span>
+                            <span>
+                                <% if (deliveryCharge> 0) { %>
+                                    ₹ <%= deliveryCharge %>
+                                        <% } else { %>
+                                            Free
+                                            <% } %>
+                            </span>
+                        </div>
+
+                        <div class="price-item total-price">
+                            <span>Total Amount:</span>
+                            <span>₹ <%= price %></span>
+                        </div>
+
+                        <% if (hasFreeDelivery) { %>
+                            <div class="delivery-badge bg-success text-white">
+                                <i class="bi bi-truck"></i> Free Delivery
+                            </div>
+                            <% } else { %>
+                                <div class="delivery-info">
+                                    <i class="bi bi-info-circle"></i>
+                                    Add items worth ₹<%= (499 - originalPrice).toFixed(2) %> more for free delivery
+                                </div>
+                                <% } %>
+                    </div>
+
                     <p class="mb-3">
                         <%= description %>
                     </p>
@@ -170,17 +233,15 @@
                         </div>
 
                         <div class="d-grid">
-                            <a href="/products/order-confirmation/" class="text-decoration-none">
-                                <button type="submit" class="btn buy-btn w-100">
-                                    Submit Order
-                                </button>
-                            </a>
+                            <button type="submit" class="btn buy-btn w-100">
+                                Submit Order
+                            </button>
                         </div>
                     </form>
                 </div>
 
                 <!-- Payment Description -->
-                <div class="payment-description mt-3">
+                <div class="payment-description">
                     <h4 class="mb-3">Payment Information</h4>
                     <p>Secure transactions guaranteed. Multiple payment methods will be available soon.</p>
                     <p class="text-muted">

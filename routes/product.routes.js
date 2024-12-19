@@ -142,12 +142,21 @@ router.get("/payment/:id", async (req, res) => {
         const productId = req.params.id;
         const product = await productModel.findById(productId);
         const Image = product.image ? `data:image/jpeg;base64,${product.image.toString('base64')}` : null;
+
+        // Calculate final price based on delivery charge condition
+        let finalPrice = parseFloat(product.price);
+        const deliveryCharge = finalPrice < 499 ? 40 : 0;
+        finalPrice += deliveryCharge;
+
         res.render("confirm-payment", {
             productName: product.name,
-            price: product.price,
+            price: finalPrice,
+            originalPrice: product.price,
+            deliveryCharge: deliveryCharge,
             description: product.description,
             image: Image,
-            productID: productId
+            productID: productId,
+            hasFreeDelivery: deliveryCharge === 0
         });
     } catch (err) {
         console.error(err);
