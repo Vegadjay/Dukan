@@ -9,11 +9,28 @@ const userOrderModel = require('../models/user-order-model');
 const userModel = require('../models/user-model');
 const authMiddleware = require("../middlewares/authMiddleware");
 
-
 // use for show that create page
 router.get('/createproduct', (req, res) => {
     res.render("add-product");
 })
+
+// route for show product edit page
+router.get('/editproduct/:id', async (req, res) => {
+    try {
+        const productId = req.params.id;
+
+        const product = await productModel.findById(productId);
+        if (!product) {
+            return res.status(404).send('Product not found');
+        }
+
+
+        res.render('edit-product', { product });
+    } catch (error) {
+        console.error('Error finding product:', error);
+        res.status(500).send('Server error');
+    }
+});
 
 // api that use for create product 
 router.post('/create', authenticateUser, upload.single('productImage'), async (req, res) => {
@@ -54,24 +71,6 @@ router.post('/create', authenticateUser, upload.single('productImage'), async (r
     } catch (error) {
         console.error("Error occurred:", error);
         return res.status(500).json({ error: "Internal server error." });
-    }
-});
-
-// route for show product edit page
-router.get('/editproduct/:id', async (req, res) => {
-    try {
-        const productId = req.params.id;
-
-        const product = await productModel.findById(productId);
-        if (!product) {
-            return res.status(404).send('Product not found');
-        }
-
-
-        res.render('edit-product', { product });
-    } catch (error) {
-        console.error('Error finding product:', error);
-        res.status(500).send('Server error');
     }
 });
 

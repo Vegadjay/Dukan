@@ -24,11 +24,5 @@ router.get("/shopdetails", authUser, async (req, res) => {
 });
 
 
-router.get("/items", (req, res) => {
-    const products = productModel.find();
-
-    res.render("user-show-product", { products })
-})
-
 
 module.exports = router
