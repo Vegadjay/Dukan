@@ -4,217 +4,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orders and Products</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>All Orders</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/Logo.webp">
     <style>
-        .order-section {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 80px;
         }
 
-        .order-header {
-            border-bottom: 1px solid #eee;
-            padding: 1rem;
-            background: #f8f9fa;
-            border-radius: 8px 8px 0 0;
+        .navbar-brand img {
+            height: 40px;
+            border-radius: 50%;
         }
 
-        .order-content {
-            padding: 1.5rem;
+        .card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
         }
 
-        .order-info {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #eee;
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
 
-        .products-table {
-            overflow-x: auto;
-        }
-
-        .table {
-            margin-bottom: 0;
-        }
-
-        .table th {
-            background: #f8f9fa;
-            font-weight: 600;
-        }
-
-        .table td,
-        .table th {
-            padding: 1rem;
-            vertical-align: middle;
-        }
-
-        .status-badge {
-            padding: 0.5em 1em;
-            border-radius: 20px;
-            font-size: 0.875rem;
-        }
-
-        .amount {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #28a745;
-        }
-
-        .page-header {
-            background: linear-gradient(135deg, #0d6efd, #0a58ca);
-            color: white;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
-        }
-
-        .info-label {
-            font-weight: 600;
-            color: #6c757d;
-            min-width: 120px;
-            display: inline-block;
-        }
-
-        .product-image {
-            width: 80px;
-            height: 80px;
+        .card-img-top {
+            height: 250px;
             object-fit: cover;
-            border-radius: 4px;
-            border: 1px solid #dee2e6;
         }
 
-        .no-image-placeholder {
-            width: 80px;
-            height: 80px;
-            background: #f8f9fa;
+        .card-body {
             display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            border-radius: 4px;
-            border: 1px solid #dee2e6;
-            color: #6c757d;
-            font-size: 0.8rem;
+            min-height: calc(100vh - 200px);
+            text-align: center;
+        }
+
+        .nav-welcome {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
     </style>
 </head>
 
-<body class="bg-light">
-    <header class="page-header">
-        <div class="container">
-            <h1 class="text-center mb-0">Orders and Products</h1>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="/Logo.webp" alt="Logo" class="me-2">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item me-3">
+                        <a class="btn btn-outline-success rounded-pill px-3" href="/orders/createorder">
+                            <i class="bi bi-bag-plus me-1"></i>Add Order
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/api/auth/logout" class="btn btn-danger text-white rounded-pill px-4">
+                            <i class="bi bi-box-arrow-right me-1"></i>Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <main class="container my-4">
-        <% if (orders && orders.length> 0) { %>
-            <% orders.forEach(order=> { %>
-                <section class="order-section">
-                    <div class="order-header">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h2 class="h5 mb-0">Order ID: <%= order._id %>
-                            </h2>
-                            <span class="status-badge bg-success text-white">
-                                <%= order.status %>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="order-content">
-                        <div class="order-info">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <p><span class="info-label">Shop Name:</span>
-                                        <%= order.shopName %>
-                                    </p>
-                                    <p><span class="info-label">Address:</span>
+    <div class="container-fluid px-4 py-4">
+        <main>
+            <% if (orders && orders.length> 0) { %>
+                <h1 class="h2 my-4 text-center">All Orders (<%= orders.length %>)</h1>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+                    <% orders.forEach(order=> { %>
+                        <div class="col">
+                            <div class="card h-100 shadow-sm">
+                                <img src="data:image/jpeg;base64,<%= order.productImageBase64 %>" class="card-img-top"
+                                    alt="<%= order.productName %>">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-3">
+                                        <%= order.productName %>
+                                    </h5>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="h6 text-primary mb-0">
+                                            <i class="fas fa-indian-rupee-sign"></i>
+                                            <%= order.totalAmount.toFixed(2) %>
+                                        </span>
+                                        <span class="badge bg-secondary">Status: <%= order.status %></span>
+                                    </div>
+                                    <p class="card-text text-muted small"><strong>Address:</strong>
                                         <%= order.address %>
                                     </p>
-                                </div>
-                                <div class="col-md-6">
-                                    <p><span class="info-label">Payment Method:</span>
+                                    <p class="card-text text-muted small"><strong>Payment Method:</strong>
                                         <%= order.paymentMethod %>
                                     </p>
-                                    <p><span class="info-label">Date:</span>
-                                        <%= new Date(order.date).toLocaleDateString() %>
+                                    <p class="card-text text-muted small"><strong>Order Date:</strong>
+                                        <%= new Date(order.date).toLocaleString() %>
                                     </p>
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <a href="/orders/editorder/<%= order._id %>"
+                                            class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-pencil me-1"></i>Edit
+                                        </a>
+                                        <a href="/orders/deleteorder/<%= order._id %>"
+                                            class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash me-1"></i>Delete
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                        <% if (products && products.length> 0) { %>
-                            <div class="products-table">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Image</th>
-                                            <th>Name</th>
-                                            <th>Price</th>
-                                            <th>Quantity</th>
-                                            <th>Category</th>
-                                            <th>Description</th>
-                                            <th>Created At</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% products.forEach(product=> { %>
-                                            <tr>
-                                                <td>
-                                                    <% if (product.imageData) { %>
-                                                        <img src="<%= product.imageData %>" alt="<%= product.name %>"
-                                                            class="product-image">
-                                                        <% } else { %>
-                                                            <div class="no-image-placeholder">
-                                                                No Image
-                                                            </div>
-                                                            <% } %>
-                                                </td>
-                                                <td>
-                                                    <%= product.name %>
-                                                </td>
-                                                <td>$<%= product.price.toFixed(2) %>
-                                                </td>
-                                                <td>
-                                                    <%= product.quantity %>
-                                                </td>
-                                                <td><span class="badge bg-info">
-                                                        <%= product.category %>
-                                                    </span></td>
-                                                <td>
-                                                    <%= product.description %>
-                                                </td>
-                                                <td>
-                                                    <%= new Date(product.createdAt).toLocaleDateString() %>
-                                                </td>
-                                            </tr>
-                                            <% }); %>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="text-end mt-3">
-                                <p class="mb-0">
-                                    <span class="info-label">Total Amount:</span>
-                                    <span class="amount">$<%= order.totalAmount.toFixed(2) %></span>
-                                </p>
-                            </div>
-                            <% } else { %>
-                                <p class="text-center text-muted">No products available for this order.</p>
-                                <% } %>
+                        <% }); %>
+                </div>
+                <% } else { %>
+                    <div class="empty-state">
+                        <h2 class="text-muted mb-3">No Orders Found</h2>
+                        <p class="text-muted mb-4">You have no orders yet. Start adding orders now!</p>
+                        <a href="/orders/createorder" class="btn btn-primary btn-lg">
+                            <i class="bi bi-plus-circle me-2"></i>Add First Order
+                        </a>
                     </div>
-                </section>
-                <% }); %>
-                    <% } else { %>
-                        <div class="text-center py-5">
-                            <h3 class="text-muted">No orders available.</h3>
-                        </div>
-                        <% } %>
-    </main>
+                    <% } %>
+        </main>
+    </div>
 
-    <footer class="bg-dark text-white text-center py-3">
-        <p class="mb-0">&copy; <%= new Date().getFullYear() %> Your Company Name</p>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

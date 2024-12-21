@@ -5,7 +5,10 @@ const productModel = require("../models/product-model")
 const shopModel = require("../models/shop-model");
 const authenticateUser = require('../middlewares/authUser');
 const orderModel = require('../models/order-model')
-// This file contain pages of product and also contains that api for working like we edit product and also we can delete product. 
+const userOrderModel = require('../models/user-order-model');
+const userModel = require('../models/user-model');
+const authMiddleware = require("../middlewares/authMiddleware");
+
 
 // use for show that create page
 router.get('/createproduct', (req, res) => {
@@ -143,7 +146,6 @@ router.get("/payment/:id", async (req, res) => {
         const product = await productModel.findById(productId);
         const Image = product.image ? `data:image/jpeg;base64,${product.image.toString('base64')}` : null;
 
-        // Calculate final price based on delivery charge condition
         let finalPrice = parseFloat(product.price);
         const deliveryCharge = finalPrice < 499 ? 40 : 0;
         finalPrice += deliveryCharge;
@@ -234,5 +236,95 @@ router.get("/order-confirmation", async (req, res) => {
     }
 
 });
+
+// This Route is add order to that order model 
+router.post('/orderregister', authenticateUser, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        console.log("User ID from cookies: ", userId);
+
+        if (!userId) {
+            return res.status(400).send("User ID not found in cookies");
+        }
+
+        const { productId, address, paymentMethod } = req.body;
+
+        console.log(productId);
+
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res.status(404).send("User not found");
+        }
+
+        const product = await productModel.findById(productId).populate("shop");
+        if (!product) {
+            return res.status(404).send("Product not found");
+        }
+
+        const newOrder = await orderModel.create({
+            productId: product._id,
+            address,
+            paymentMethod,
+            status: "Confirmed",
+            shopName: product.shop.shopName,
+            product: product,
+            productName: product.name,
+            totalAmount: product.price,
+            date: new Date(),
+        });
+
+        user.orders.push(newOrder._id);
+        await user.save();
+
+        await userOrderModel.create({
+            orders: [newOrder._id],
+            user: user._id
+        });
+
+        res.status(201).render("order-confirmed");
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server error");
+    }
+});
+
+// This route is show that all products and show that in that ejs file.
+router.get("/userorder", authenticateUser, async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        const userOrders = await userOrderModel.findOne({ user: userId }).populate('orders');
+        if (!userOrders) {
+            return res.status(404).render('user-order', { orders: [] });
+        }
+
+        const orders = await orderModel.find({
+            _id: { $in: userOrders.orders }
+        }).populate({
+            path: 'product',
+            select: 'name productImage'
+        });
+
+        const ordersWithImages = orders.map(order => {
+            const orderObj = order.toObject();
+
+            if (orderObj.product && orderObj.product.productImage) {
+                orderObj.productImageBase64 = orderObj.product.productImage.toString('base64');
+                delete orderObj.product.productImage;
+            } else {
+                orderObj.productImageBase64 = null;
+            }
+
+            return orderObj;
+        });
+
+        res.status(200).render('user-order', { orders: ordersWithImages });
+    } catch (err) {
+        console.error('Error in userorder route:', err);
+        res.status(500).render('error', { message: "Server error occurred" });
+    }
+});
+
+
 
 module.exports = router
