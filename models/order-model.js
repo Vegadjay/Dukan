@@ -24,6 +24,10 @@ const orderSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    shopName: {
+        type: String,
+        require: true
+    },
     totalAmount: {
         type: Number,
         required: true,

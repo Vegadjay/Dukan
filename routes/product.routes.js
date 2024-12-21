@@ -165,6 +165,7 @@ router.get("/payment/:id", async (req, res) => {
 });
 
 
+// This route is gave details of product
 router.get("/productdetails/:id", async (req, res) => {
     try {
         const productId = req.params.id;
@@ -187,20 +188,34 @@ router.get("/productdetails/:id", async (req, res) => {
     }
 });
 
+
+// This route is add product to db
 router.post("/submit-order/:id", async (req, res) => {
     try {
         const { address, paymentMethod } = req.body;
         const productId = req.params.id;
-        const product = await productModel.findById(productId);
+
+        const product = await productModel.findById(productId).populate("shop");
+
+        if (!product) {
+            return res.status(404).send("Product not found");
+        }
+
+        if (!product.shop || !product.shop.shopName) {
+            return res.status(400).send("Associated shop not found or invalid");
+        }
+
         await orderModel.create({
-            productId,
+            productId: product._id,
             address,
             paymentMethod,
-            status: 'Confirmed',
+            status: "Confirmed",
+            shopName: product.shop.shopName,
             productName: product.name,
             totalAmount: product.price,
-            date: new Date()
-        })
+            date: new Date(),
+        });
+
         res.redirect("/products/order-confirmation");
     } catch (err) {
         console.error(err);
@@ -208,7 +223,7 @@ router.post("/submit-order/:id", async (req, res) => {
     }
 });
 
-
+// This is Order Confired page 
 router.get("/order-confirmation", async (req, res) => {
     try {
 
