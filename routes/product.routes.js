@@ -164,7 +164,6 @@ router.get("/payment/:id", async (req, res) => {
     }
 });
 
-
 // This route is gave details of product
 router.get("/productdetails/:id", async (req, res) => {
     try {
@@ -188,7 +187,6 @@ router.get("/productdetails/:id", async (req, res) => {
     }
 });
 
-
 // This route is add product to db
 router.post("/submit-order/:id", async (req, res) => {
     try {
@@ -211,6 +209,7 @@ router.post("/submit-order/:id", async (req, res) => {
             paymentMethod,
             status: "Confirmed",
             shopName: product.shop.shopName,
+            product: product,
             productName: product.name,
             totalAmount: product.price,
             date: new Date(),
@@ -221,6 +220,7 @@ router.post("/submit-order/:id", async (req, res) => {
         console.error(err);
         res.status(500).send("Server error");
     }
+
 });
 
 // This is Order Confired page 
@@ -232,6 +232,7 @@ router.get("/order-confirmation", async (req, res) => {
         console.error(err);
         res.status(500).send("Server error");
     }
+
 });
 
 module.exports = router

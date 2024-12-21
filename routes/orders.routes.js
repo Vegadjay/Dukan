@@ -2,39 +2,37 @@ const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
 
-// Import models
 const orderModel = require("../models/order-model");
 const productModel = require("../models/product-model");
-
-// Endpoint to get orders by shop name
-router.get("/orders-by-shop", async (req, res) => {
+router.get("/shoporder/:shopName", async (req, res) => {
     try {
-        const shopName = req.query.shopName;
-        if (!shopName) {
-            return res.status(400).json({ error: "Shop name is required" });
-        }
-
-        const products = await productModel.find({}).populate({
-            path: "shop",
-            match: { name: shopName },
+        const shopName = req.params.shopName;
+        const orders = await orderModel.find({ shopName }).populate({
+            path: "productId",
+            model: "Product",
+            select: 'name price quantity category description shop createdAt image'
         });
 
-        const productIds = products.filter(p => p.shop !== null).map(p => p._id);
-
-        if (productIds.length === 0) {
-            return res.status(404).json({ error: "No products found for this shop" });
+        if (!orders || orders.length === 0) {
+            return res.status(404).send("No orders found for this shop.");
         }
 
-        const orders = await orderModel.find({ productId: { $in: productIds } }).populate("productId");
-
-        res.status(200).json({
-            shopName,
-            orders,
+        const products = await productModel.find();
+        const productsWithBase64 = products.map(product => {
+            const productObj = product.toObject();
+            if (productObj.image) {
+                productObj.imageData = `data:image/jpeg;base64,${productObj.image.toString('base64')}`;
+            }
+            return productObj;
         });
-    } catch (error) {
-        console.error("Error fetching orders by shop:", error);
-        res.status(500).json({ error: "Internal server error" });
+
+        res.render("orders", { orders, products: productsWithBase64 });
+    } catch (err) {
+        console.error("Error fetching shop orders:", err);
+        res.status(500).send("Internal server error");
     }
 });
+
+
 
 module.exports = router;

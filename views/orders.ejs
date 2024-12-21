@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders and Products</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .order-section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .order-header {
+            border-bottom: 1px solid #eee;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .order-content {
+            padding: 1.5rem;
+        }
+
+        .order-info {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .products-table {
+            overflow-x: auto;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .table td,
+        .table th {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+
+        .status-badge {
+            padding: 0.5em 1em;
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+
+        .amount {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #28a745;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #0d6efd, #0a58ca);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #6c757d;
+            min-width: 120px;
+            display: inline-block;
+        }
+
+        .product-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+        }
+
+        .no-image-placeholder {
+            width: 80px;
+            height: 80px;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+            color: #6c757d;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    <header class="page-header">
+        <div class="container">
+            <h1 class="text-center mb-0">Orders and Products</h1>
+        </div>
+    </header>
+
+    <main class="container my-4">
+        <% if (orders && orders.length> 0) { %>
+            <% orders.forEach(order=> { %>
+                <section class="order-section">
+                    <div class="order-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h2 class="h5 mb-0">Order ID: <%= order._id %>
+                            </h2>
+                            <span class="status-badge bg-success text-white">
+                                <%= order.status %>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="order-content">
+                        <div class="order-info">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <p><span class="info-label">Shop Name:</span>
+                                        <%= order.shopName %>
+                                    </p>
+                                    <p><span class="info-label">Address:</span>
+                                        <%= order.address %>
+                                    </p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><span class="info-label">Payment Method:</span>
+                                        <%= order.paymentMethod %>
+                                    </p>
+                                    <p><span class="info-label">Date:</span>
+                                        <%= new Date(order.date).toLocaleDateString() %>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <% if (products && products.length> 0) { %>
+                            <div class="products-table">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Image</th>
+                                            <th>Name</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Category</th>
+                                            <th>Description</th>
+                                            <th>Created At</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% products.forEach(product=> { %>
+                                            <tr>
+                                                <td>
+                                                    <% if (product.imageData) { %>
+                                                        <img src="<%= product.imageData %>" alt="<%= product.name %>"
+                                                            class="product-image">
+                                                        <% } else { %>
+                                                            <div class="no-image-placeholder">
+                                                                No Image
+                                                            </div>
+                                                            <% } %>
+                                                </td>
+                                                <td>
+                                                    <%= product.name %>
+                                                </td>
+                                                <td>$<%= product.price.toFixed(2) %>
+                                                </td>
+                                                <td>
+                                                    <%= product.quantity %>
+                                                </td>
+                                                <td><span class="badge bg-info">
+                                                        <%= product.category %>
+                                                    </span></td>
+                                                <td>
+                                                    <%= product.description %>
+                                                </td>
+                                                <td>
+                                                    <%= new Date(product.createdAt).toLocaleDateString() %>
+                                                </td>
+                                            </tr>
+                                            <% }); %>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-end mt-3">
+                                <p class="mb-0">
+                                    <span class="info-label">Total Amount:</span>
+                                    <span class="amount">$<%= order.totalAmount.toFixed(2) %></span>
+                                </p>
+                            </div>
+                            <% } else { %>
+                                <p class="text-center text-muted">No products available for this order.</p>
+                                <% } %>
+                    </div>
+                </section>
+                <% }); %>
+                    <% } else { %>
+                        <div class="text-center py-5">
+                            <h3 class="text-muted">No orders available.</h3>
+                        </div>
+                        <% } %>
+    </main>
+
+    <footer class="bg-dark text-white text-center py-3">
+        <p class="mb-0">&copy; <%= new Date().getFullYear() %> Your Company Name</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

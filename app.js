@@ -15,6 +15,7 @@ const authController = require("./controllers/authController");
 const userShopRoutes = require("./routes/userspage.routes");
 const ownersRoutes = require("./routes/ownes.routes");
 const shopController = require("./controllers/shopController");
+const orderController = require('./routes/orders.routes');
 const authMiddleware = require("./middlewares/authMiddleware");
 const setHeader = require("./middlewares/setHeader");
 const connectionMongoDb = require("./config/mongooseConnection");
@@ -69,6 +70,7 @@ app.use("/products", productsRoutes);
 app.use("/users", userShopRoutes);
 app.use("/owners", ownersRoutes);
 app.use("/shop", shopController);
+app.use('/orders', orderController)
 
 
 // Error Handling Middleware
@@ -81,7 +83,7 @@ app.use((err, req, res, next) => {
 });
 
 // Start the server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
