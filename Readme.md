@@ -53,7 +53,7 @@ SnapShop is a cutting-edge multi-vendor e-commerce platform that brings together
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/dukan.git
+git clone https://github.com/yourusername/SnapShop.git
 ```
 
 2. **Install dependencies**
