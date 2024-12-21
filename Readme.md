@@ -83,11 +83,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 💌 Contact Us
 
-- Website: [https://snapshop.com](https://snapshop.com)
-- Email: support@snapshop.com
-- Twitter: [@snapshop](https://twitter.com/snapshop)
-- Discord: [Join our community](https://discord.gg/snapshop)
-
+- Website: [https://snapshop.com](https://dukan-radt.onrender.com/)
+- Github: [Contrbute_Here](https://github.com/Vegadjay/Dukan)
+- Linkdin: [@JAYVEGAD](www.linkedin.com/in/vegadjay)
 ---
 <div align="center">
   Made with ❤️ by the SnapShop Team
