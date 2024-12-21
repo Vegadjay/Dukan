@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const productModel = require('./product-model'); // Import the product model
+const productModel = require('./product-model');
 
 const shopSchema = new mongoose.Schema({
     ownerName: {

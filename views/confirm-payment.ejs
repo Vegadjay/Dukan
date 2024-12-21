@@ -145,6 +145,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <div class="ms-auto">
+                    <!-- todo: add that link for redirect that page and using that api and make that more attractive -->
+                    <a href="/" class="logout-btn">Orders</a>
+                </div>
+                <div class="ms-auto">
                     <a href="/api/auth/logout" class="logout-btn">Logout</a>
                 </div>
             </div>
@@ -205,9 +209,7 @@
                 </div>
             </div>
 
-            <!-- Delivery & Payment Section -->
             <div class="col-md-4">
-                <!-- Address Input Section -->
                 <div class="address-section">
                     <h4 class="mb-3">Delivery Address</h4>
                     <form action="/products/submit-order/<%= productID %>" method="POST">

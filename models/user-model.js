@@ -3,29 +3,30 @@ const mongoose = require('mongoose');
 const userSchema = mongoose.Schema({
     fullName: {
         type: String,
-        require: true,
+        required: true,
         minLength: 4,
-        trim: true
+        trim: true,
     },
     email: {
         type: String,
-        require: true
+        required: true,
+        unique: true,
     },
     password: {
         type: String,
-        require: true,
-        trim: true
+        required: true,
+        trim: true,
     },
-    cart: {
-        type: Array,
-        default: []
+    contact: {
+        type: Number,
     },
-    contact: Number,
-    orders: {
-        type: Array,
-        default: []
-    }
-})
+    orders: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Order",
+        },
+    ],
+});
 
 const userModel = mongoose.model("User", userSchema);
 
