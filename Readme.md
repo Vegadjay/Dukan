@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./assests/Banner.png" alt="SnapShop Logo" width="400px">
+  <img src="./assests/Banner.png" alt="SnapShop Logo" width="800px">
   
   # SnapShop
   ### Your One-Stop Multi-Vendor Shopping Destination
@@ -53,12 +53,12 @@ SnapShop is a cutting-edge multi-vendor e-commerce platform that brings together
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/snapshop.git
+git clone https://github.com/yourusername/dukan.git
 ```
 
 2. **Install dependencies**
 ```bash
-cd snapshop
+cd dukan
 npm install
 ```
 
