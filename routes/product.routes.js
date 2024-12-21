@@ -108,7 +108,7 @@ router.post('/deleteproduct/:productId', async (req, res) => {
         if (req.body._method === "DELETE") {
             const { productId } = req.params;
             const { confirmCheck } = req.body;
-
+            console.log(productId)
             if (!confirmCheck) {
                 return res.status(400).json({ message: 'You must confirm deletion.' });
             }
@@ -169,12 +169,17 @@ router.get("/productdetails/:id", async (req, res) => {
     try {
         const productId = req.params.id;
         const product = await productModel.findById(productId);
+        const shopId = product.shop;
+        const shopName = await shopModel.findById(shopId);
         if (!product) {
             return res.status(404).send("Product not found");
         }
         const Image = product.image ? `data:image/jpeg;base64,${product.image.toString('base64')}` : null;
         res.render("products", {
-            product, Image, productId
+            product,
+            Image,
+            productId,
+            shopName
         });
     } catch (error) {
         console.error("Error fetching product:", error);
@@ -182,8 +187,6 @@ router.get("/productdetails/:id", async (req, res) => {
     }
 });
 
-
-// todo: Start From here this code is not working what is reason check that and write from here.
 router.post("/submit-order/:id", async (req, res) => {
     try {
         const { address, paymentMethod } = req.body;
