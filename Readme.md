@@ -60,7 +60,7 @@ git clone https://github.com/yourusername/SnapShop.git
 ```
 2. **Install dependencies**
 ```bash
-cd dukan
+cd SnapShop
 npm install
 ```
 3. **Start the application**
@@ -78,7 +78,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 💌 Contact Us
 - Website: [https://snapshop.com](https://dukan-radt.onrender.com/)
-- Github: [Contrbute_Here](https://github.com/Vegadjay/Dukan)
+- Github: [Contrbute_Here](https://github.com/Vegadjay/SnapShop)
 - Linkdin: [@JAYVEGAD](www.linkedin.com/in/vegadjay)
 
 ---
