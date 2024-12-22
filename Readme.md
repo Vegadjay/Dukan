@@ -73,7 +73,7 @@ Visit `http://localhost:3000` to see the application in action!
 For detailed documentation about the platform's features, API endpoints, and development guidelines, please see our [Documentation README](docs/README.md).
 
 ## 🤝 Contributing
-We love contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details on how to get started.
+We love contributions! Please see our [Contributing Guide](APIS.md) for details on how to get started.
 
 ## 📄 License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
